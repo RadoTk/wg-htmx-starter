@@ -1,0 +1,142 @@
+# Fichiers système
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*~
+.~*
+
+# Python
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.pyc
+*.pyo
+*.pyd
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+PIPFILE.lock
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Environnements virtuels
+venv/
+.venv/
+env/
+.env/
+ENV/
+env.bak/
+venv.bak/
+
+# Variables d'environnement
+.env
+.env.local
+.env.*.local
+
+# Django
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+*.sqlite3-shm
+*.sqlite3-wal
+celerybeat-schedule
+celerybeat.pid
+.django_cache/
+sessions/
+
+# Fichiers statiques collectés
+/static/
+/staticfiles/
+collected_static/
+
+# Fichiers médias uploadés
+/media/
+/uploads/
+
+# Cache Django
+common/CACHE/
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+*.retry
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Vagrant
+.vagrant/
+/.vagrant/
+/Vagrantfile.local
+
+# Logs
+/logs/
+*.log
+
+# Data
+/data/
+
+# Trae AI
+.trae/
+
+# Fichiers temporaires
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+.#*
+#*#
+.DS_Store?
+._*
+
+# Fichiers de sauvegarde
+*.bak
+*.backup
+
+# Configuration locale spécifique
+bakerydemo/settings/local.py
+bakerydemodb
+
+# Environnement de développement local Windows
+db_local_windows.sqlite3
+db_local_windows.sqlite3-journal
+staticfiles_local/
+media_local/
+.env.local
+venv/
+
+# Garder le .gitignore
+!.gitignore

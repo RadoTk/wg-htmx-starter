@@ -1,0 +1,151 @@
+# Fichiers Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Fichiers système
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*~
+.~*
+
+# Python cache et build
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.pyc
+*.pyo
+*.pyd
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+PIPFILE.lock
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Environnements virtuels
+venv/
+.venv/
+env/
+.env/
+ENV/
+env.bak/
+venv.bak/
+
+# Variables d'environnement
+.env
+.env.local
+.env.*.local
+
+# Base de données locale
+db.sqlite3
+db.sqlite3-journal
+*.sqlite3-shm
+*.sqlite3-wal
+
+# Logs
+*.log
+debug.log
+/logs/
+
+# Fichiers statiques et médias (générés)
+/static/
+/staticfiles/
+collected_static/
+/media/
+/uploads/
+
+# Cache Django
+common/CACHE/
+.django_cache/
+sessions/
+celerybeat-schedule
+celerybeat.pid
+
+# IDEs et éditeurs
+.idea/
+.vscode/
+*.swp
+*.swo
+*.retry
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Vagrant
+.vagrant/
+/.vagrant/
+/Vagrantfile.local
+Vagrantfile
+Procfile
+
+# Git
+.git/
+.gitignore
+
+# Trae AI
+.trae/
+
+# Fichiers temporaires
+*.tmp
+*.temp
+.#*
+#*#
+
+# Fichiers de sauvegarde
+*.bak
+*.backup
+
+# Documentation et fichiers de développement
+README.md
+*.md
+.editorconfig
+.eslintignore
+.eslintrc
+.nvmrc
+.pre-commit-config.yaml
+.prettierignore
+.prettierrc
+.stylelintignore
+.stylelintrc
+.gitpod.dockerfile
+.gitpod.yml
+prompt_reformat.md
+
+# Configuration locale spécifique
+bakerydemo/settings/local.py
+bakerydemodb
+local_settings.py
+
+# Data
+/data/
