@@ -43,7 +43,7 @@ Developers more familiar with venv/virtualenv and traditional Django app setup i
 
 Set up a development environment and run this demo website with a single click (requires a Github account):
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/wagtail/bakerydemo/)
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/wagtail/rootapp/)
 
 Once Gitpod has fully started, and a preview of the bakery website has appeared in the "Simple Browser" panel, click the arrow button to the right of the URL bar to open the website in a new tab.
 Go to `/admin/` and login with `admin / changeme`.
@@ -60,8 +60,8 @@ Go to `/admin/` and login with `admin / changeme`.
 Once you've installed the necessary dependencies run the following commands:
 
 ```bash
-git clone https://github.com/wagtail/bakerydemo.git
-cd bakerydemo
+git clone https://github.com/wagtail/rootapp.git
+cd rootapp
 vagrant up
 vagrant ssh
 # then, within the SSH session:
@@ -87,8 +87,8 @@ Use `Ctrl+c` to stop the local server. To stop the Vagrant environment, run `exi
 Run the following commands:
 
 ```bash
-git clone https://github.com/wagtail/bakerydemo.git --config core.autocrlf=input
-cd bakerydemo
+git clone https://github.com/wagtail/rootapp.git --config core.autocrlf=input
+cd rootapp
 docker compose up --build -d
 ```
 
@@ -140,21 +140,21 @@ source .venv/bin/activate
 On Windows (cmd.exe), run the following commands:
 ```bash
 .venv\Scripts\activate.bat
-# if wagtailbakerydemo\Scripts\activate.bat doesn't work, run:
+# if wagtailrootapp\Scripts\activate.bat doesn't work, run:
 .venv\Scripts\Activate.ps1
 ```
 
 Now we're ready to set up the bakery demo project itself:
 ```bash
 cd ~/dev [or your preferred dev directory]
-git clone https://github.com/wagtail/bakerydemo.git
-cd bakerydemo
+git clone https://github.com/wagtail/rootapp.git
+cd rootapp
 pip install -r requirements/development.txt
 ```
 
-Next, we need to create the files `.env` and `bakerydemo/settings/local.py`, which provide a place for local configuration settings that need to be kept outside of version control. No such settings are required for a standard installation, but warnings will be displayed if these files are not present:
+Next, we need to create the files `.env` and `rootapp/settings/local.py`, which provide a place for local configuration settings that need to be kept outside of version control. No such settings are required for a standard installation, but warnings will be displayed if these files are not present:
 ```bash
-cp bakerydemo/settings/local.py.example bakerydemo/settings/local.py
+cp rootapp/settings/local.py.example rootapp/settings/local.py
 cp .env.example .env
 # `cp` is used for bash. Windows Command Prompt uses `copy`
 ```
@@ -174,26 +174,26 @@ Hopefully after you've experimented with the demo you'll want to create your own
 
 # Contributing
 
-If you're a Python or Django developer, fork the repo and get stuck in! If you'd like to get involved you may find our [contributing guidelines](https://github.com/wagtail/bakerydemo/blob/master/contributing.md) a useful read.
+If you're a Python or Django developer, fork the repo and get stuck in! If you'd like to get involved you may find our [contributing guidelines](https://github.com/wagtail/rootapp/blob/master/contributing.md) a useful read.
 
 ### Preparing this archive for distribution
 
 If you change content or images in this repo and need to prepare a new fixture file for export, do the following on a branch:
 
 ```bash
-./manage.py dumpdata --natural-foreign --indent 2 -e auth.permission -e contenttypes -e wagtailcore.GroupCollectionPermission -e wagtailimages.rendition -e sessions -e wagtailsearch.indexentry -e wagtailsearch.sqliteftsindexentry -e wagtailcore.referenceindex -e wagtailcore.pagesubscription -e wagtailcore.workflowcontenttype -e wagtailadmin.editingsession > bakerydemo/base/fixtures/bakerydemo.json
-npx prettier --write bakerydemo/base/fixtures/bakerydemo.json
+./manage.py dumpdata --natural-foreign --indent 2 -e auth.permission -e contenttypes -e wagtailcore.GroupCollectionPermission -e wagtailimages.rendition -e sessions -e wagtailsearch.indexentry -e wagtailsearch.sqliteftsindexentry -e wagtailcore.referenceindex -e wagtailcore.pagesubscription -e wagtailcore.workflowcontenttype -e wagtailadmin.editingsession > rootapp/base/fixtures/rootapp.json
+npx prettier --write rootapp/base/fixtures/rootapp.json
 ```
 
 Please optimize any included images to 1200px wide with JPEG compression at 60%. Note that `media/images` is ignored in the repo by `.gitignore` but `media/original_images` is not. Wagtail's local image "renditions" are excluded in the fixture recipe above.
 
-Make a pull request to https://github.com/wagtail/bakerydemo
+Make a pull request to https://github.com/wagtail/rootapp
 
 # Other notes
 
 ### Local configuration files
 
-The `bakerydemo/settings/local.py` file can be used to store local Django settings such as database connection details that need to be kept outside of version control.
+The `rootapp/settings/local.py` file can be used to store local Django settings such as database connection details that need to be kept outside of version control.
 
 Additionally, various settings can be controlled through environment variables. The [django-dotenv](https://github.com/jpadilla/django-dotenv) package is used to load these variables from a `.env` file in the project root.
 
@@ -225,16 +225,16 @@ By default, `django-csp` is not enabled since Wagtail isn't fully compatible yet
 
 ### Testing against different versions of Wagtail
 
-The `main` branch of this demo is designed to work with both the latest stable release and the latest `main` branch (development version) of Wagtail. To run the demo against a specific version of Wagtail, we have created [git tags](https://github.com/wagtail/bakerydemo/tags) for the latest commits that work with each feature release.
+The `main` branch of this demo is designed to work with both the latest stable release and the latest `main` branch (development version) of Wagtail. To run the demo against a specific version of Wagtail, we have created [git tags](https://github.com/wagtail/rootapp/tags) for the latest commits that work with each feature release.
 
-- [`v6.4`](https://github.com/wagtail/bakerydemo/releases/tag/v6.4)
-- [`v6.3`](https://github.com/wagtail/bakerydemo/releases/tag/v6.3)
-- [`v6.2`](https://github.com/wagtail/bakerydemo/releases/tag/v6.2)
-- [`v6.1`](https://github.com/wagtail/bakerydemo/releases/tag/v6.1)
+- [`v6.4`](https://github.com/wagtail/rootapp/releases/tag/v6.4)
+- [`v6.3`](https://github.com/wagtail/rootapp/releases/tag/v6.3)
+- [`v6.2`](https://github.com/wagtail/rootapp/releases/tag/v6.2)
+- [`v6.1`](https://github.com/wagtail/rootapp/releases/tag/v6.1)
 
-See the [complete tags list](https://github.com/wagtail/bakerydemo/tags) for older releases.
+See the [complete tags list](https://github.com/wagtail/rootapp/tags) for older releases.
 
-The tags point to the last commit just before the requirements were updated to the next Wagtail version. For example, the `v4.2` tag points to the commit just before the bakerydemo was updated to use Wagtail 5.0. This ensures that the tagged demo code contains the latest updates possible for the supported version.
+The tags point to the last commit just before the requirements were updated to the next Wagtail version. For example, the `v4.2` tag points to the commit just before the rootapp was updated to use Wagtail 5.0. This ensures that the tagged demo code contains the latest updates possible for the supported version.
 
 There were no updates to the demo between Wagtail 4.1 and 4.2, so the `v4.1` and `v4.2` tags point to the same commit.
 

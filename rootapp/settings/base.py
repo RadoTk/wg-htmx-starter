@@ -37,12 +37,12 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    "bakerydemo.base",
-    "bakerydemo.blog",
-    "bakerydemo.breads",
-    "bakerydemo.locations",
-    "bakerydemo.recipes",
-    "bakerydemo.search",
+    "rootapp.base",
+    "rootapp.blog",
+    "rootapp.breads",
+    "rootapp.locations",
+    "rootapp.recipes",
+    "rootapp.search",
     "wagtail.embeds",
     "wagtail.sites",
     "wagtail.users",
@@ -93,13 +93,13 @@ MIDDLEWARE = [
 ]
 
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
-ROOT_URLCONF = "bakerydemo.urls"
+ROOT_URLCONF = "rootapp.urls"
 
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [
-            "bakerydemo/templates",
+            "rootapp/templates",
         ],
         "APP_DIRS": True,
         "OPTIONS": {
@@ -114,7 +114,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "bakerydemo.wsgi.application"
+WSGI_APPLICATION = "rootapp.wsgi.application"
 
 
 # Database
@@ -126,7 +126,7 @@ else:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
-            "NAME": os.path.join(BASE_DIR, "bakerydemodb"),
+            "NAME": os.path.join(BASE_DIR, "rootappdb"),
         }
     }
 
@@ -202,7 +202,7 @@ GOOGLE_MAP_API_KEY = "AIzaSyD31CT9P9KxvNUJOwDq2kcFEIG8ADgaFgw"
 WAGTAILSEARCH_BACKENDS = {
     "default": {
         "BACKEND": "wagtail.search.backends.database",
-        "INDEX": "bakerydemo",
+        "INDEX": "rootapp",
     },
 }
 

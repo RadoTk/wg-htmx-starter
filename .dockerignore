@@ -143,8 +143,8 @@ README.md
 prompt_reformat.md
 
 # Configuration locale spécifique
-bakerydemo/settings/local.py
-bakerydemodb
+rootapp/settings/local.py
+rootappdb
 local_settings.py
 
 # Data

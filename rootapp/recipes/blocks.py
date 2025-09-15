@@ -13,7 +13,7 @@ from wagtail.contrib.typed_table_block.blocks import TypedTableBlock
 from wagtail.embeds.blocks import EmbedBlock
 from wagtail.images.blocks import ImageBlock
 
-from bakerydemo.base.blocks import (
+from rootapp.base.blocks import (
     BlockQuote,
     HeadingBlock,
     get_image_api_representation,

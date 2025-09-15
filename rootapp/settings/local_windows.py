@@ -7,7 +7,7 @@ import os
 DEBUG = True
 
 # Configuration WSGI spécifique pour Windows local
-WSGI_APPLICATION = 'bakerydemo.wsgi_local_windows.application'
+WSGI_APPLICATION = 'rootapp.wsgi_local_windows.application'
 
 # Base de données SQLite locale (pas de conflit avec PostgreSQL Docker)
 DATABASES = {

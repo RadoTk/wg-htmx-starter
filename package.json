@@ -1,7 +1,7 @@
 {
-  "name": "bakerydemo",
+  "name": "rootapp",
   "version": "1.0.0",
-  "repository": "https://github.com/wagtail/bakerydemo",
+  "repository": "https://github.com/wagtail/rootapp",
   "private": true,
   "engines": {
     "node": ">=22"

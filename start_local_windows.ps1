@@ -35,7 +35,7 @@ pip install -r requirements\development.txt
 Write-Host ""
 
 # Configurer les variables d'environnement
-$env:DJANGO_SETTINGS_MODULE = "bakerydemo.settings.local_windows"
+$env:DJANGO_SETTINGS_MODULE = "rootapp.settings.local_windows"
 
 # Appliquer les migrations
 Write-Host "Application des migrations..." -ForegroundColor Yellow
@@ -66,10 +66,10 @@ Write-Host ""
 Write-Host "Démarrage du serveur de développement Django sur http://localhost:8080" -ForegroundColor Green
 Write-Host "Interface admin: http://localhost:8080/admin" -ForegroundColor Green
 Write-Host "Utilisateur: admin / Mot de passe: admin123" -ForegroundColor Green
-Write-Host "" 
+Write-Host ""
 Write-Host "Note: Utilise le serveur de développement Django (pas WSGI)" -ForegroundColor Cyan
 Write-Host "Cela évite les conflits avec la configuration Docker" -ForegroundColor Cyan
 Write-Host "Appuyez sur Ctrl+C pour arrêter le serveur" -ForegroundColor Yellow
 Write-Host ""
 
-python manage.py runserver 8080 --settings=bakerydemo.settings.local_windows
+python manage.py runserver 8080 --settings=rootapp.settings.local_windows

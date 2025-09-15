@@ -1,7 +1,7 @@
 from django import template
 from wagtail.models import Page, Site
 
-from bakerydemo.base.models import FooterText
+from rootapp.base.models import FooterText
 
 register = template.Library()
 # https://docs.djangoproject.com/en/stable/howto/custom-template-tags/

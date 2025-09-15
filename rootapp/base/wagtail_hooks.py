@@ -4,8 +4,8 @@ from wagtail.admin.userbar import AccessibilityItem
 from wagtail.snippets.models import register_snippet
 from wagtail.snippets.views.snippets import SnippetViewSet, SnippetViewSetGroup
 
-from bakerydemo.base.filters import RevisionFilterSetMixin
-from bakerydemo.base.models import FooterText, Person
+from rootapp.base.filters import RevisionFilterSetMixin
+from rootapp.base.models import FooterText, Person
 
 """
 N.B. To see what icons are available for use in Wagtail menus and StreamField block types,

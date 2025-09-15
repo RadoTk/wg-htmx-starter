@@ -19,7 +19,7 @@ except ImportError:
     pass
 
 # Configuration par défaut pour l'environnement Windows local
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "bakerydemo.settings.local_windows")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "rootapp.settings.local_windows")
 
 # Import Django WSGI application
 from django.core.wsgi import get_wsgi_application

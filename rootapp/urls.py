@@ -8,7 +8,7 @@ from wagtail.contrib.sitemaps.views import sitemap
 from wagtail.documents import urls as wagtaildocs_urls
 from wagtail.images.views.serve import ServeView
 
-from bakerydemo.search import views as search_views
+from rootapp.search import views as search_views
 
 from .api import api_router
 

@@ -12096,7 +12096,7 @@
       "is_permanent": true,
       "redirect_page": null,
       "redirect_page_route_path": "",
-      "redirect_link": "https://github.com/wagtail/bakerydemo",
+      "redirect_link": "https://github.com/wagtail/rootapp",
       "automatically_created": false,
       "created_at": "2019-06-23T09:06:27.319Z"
     }

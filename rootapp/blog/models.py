@@ -11,7 +11,7 @@ from wagtail.fields import StreamField
 from wagtail.models import Orderable, Page
 from wagtail.search import index
 
-from bakerydemo.base.blocks import BaseStreamBlock
+from rootapp.base.blocks import BaseStreamBlock
 
 
 class BlogPersonRelationship(Orderable, models.Model):

@@ -25,7 +25,7 @@ echo.
 
 REM Appliquer les migrations
 echo Application des migrations...
-set DJANGO_SETTINGS_MODULE=bakerydemo.settings.local_windows
+set DJANGO_SETTINGS_MODULE=rootapp.settings.local_windows
 python manage.py migrate
 echo.
 
@@ -50,6 +50,6 @@ echo.
 echo Note: Utilise le serveur de développement Django (pas WSGI)
 echo Cela évite les conflits avec la configuration Docker
 echo.
-python manage.py runserver 8080 --settings=bakerydemo.settings.local_windows
+python manage.py runserver 8080 --settings=rootapp.settings.local_windows
 
 pause

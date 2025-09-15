@@ -127,8 +127,8 @@ yarn-error.log*
 *.backup
 
 # Configuration locale spécifique
-bakerydemo/settings/local.py
-bakerydemodb
+rootapp/settings/local.py
+rootappdb
 
 # Environnement de développement local Windows
 db_local_windows.sqlite3

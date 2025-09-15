@@ -4,8 +4,8 @@ from wagtail.admin.viewsets.model import ModelViewSet
 from wagtail.snippets.models import register_snippet
 from wagtail.snippets.views.snippets import SnippetViewSet, SnippetViewSetGroup
 
-from bakerydemo.base.filters import RevisionFilterSetMixin
-from bakerydemo.breads.models import BreadIngredient, BreadType, Country
+from rootapp.base.filters import RevisionFilterSetMixin
+from rootapp.breads.models import BreadIngredient, BreadType, Country
 
 
 class BreadIngredientFilterSet(RevisionFilterSetMixin, WagtailFilterSet):

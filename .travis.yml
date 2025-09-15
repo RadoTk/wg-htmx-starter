@@ -32,6 +32,6 @@ after_script:
 
 deploy:
   provider: script
-  script: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin && docker tag bakerydemo_app wagtail/bakerydemo:latest && docker tag bakerydemo_app wagtail/bakerydemo:release-$(git rev-parse --short ${TRAVIS_COMMIT}) && docker push wagtail/bakerydemo
+  script: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin && docker tag rootapp_app wagtail/rootapp:latest && docker tag rootapp_app wagtail/rootapp:release-$(git rev-parse --short ${TRAVIS_COMMIT}) && docker push wagtail/rootapp
   on:
     branch: master

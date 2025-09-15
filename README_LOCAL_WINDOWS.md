@@ -42,7 +42,7 @@ venv\Scripts\activate
 pip install -r requirements\development.txt
 
 # 4. Configurer Django
-set DJANGO_SETTINGS_MODULE=bakerydemo.settings.local_windows
+set DJANGO_SETTINGS_MODULE=rootapp.settings.local_windows
 
 # 5. Appliquer les migrations
 python manage.py migrate
@@ -67,7 +67,7 @@ python manage.py runserver 8080
 
 ```
 wg-starter/
-├── bakerydemo/settings/local_windows.py    # Configuration Windows
+├── rootapp/settings/local_windows.py    # Configuration Windows
 ├── .env.local                              # Variables d'environnement locales
 ├── start_local_windows.bat                 # Script de démarrage Batch
 ├── start_local_windows.ps1                 # Script de démarrage PowerShell
@@ -98,7 +98,7 @@ wg-starter/
 ## 🔧 Personnalisation
 
 ### Modifier le port
-Éditer `bakerydemo/settings/local_windows.py` :
+Éditer `rootapp/settings/local_windows.py` :
 ```python
 WAGTAILADMIN_BASE_URL = "http://localhost:VOTRE_PORT"
 ```
