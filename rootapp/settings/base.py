@@ -43,6 +43,9 @@ INSTALLED_APPS = [
     "rootapp.locations",
     "rootapp.recipes",
     "rootapp.search",
+    # htmx
+    "django_htmx",
+
     "wagtail.embeds",
     "wagtail.sites",
     "wagtail.users",
@@ -90,6 +93,8 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
+
+    "django_htmx.middleware.HtmxMiddleware",
 ]
 
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
