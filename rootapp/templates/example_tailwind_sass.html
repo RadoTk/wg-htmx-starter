@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Exemple Tailwind CSS + SASS{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <!-- En-tête avec gradient personnalisé -->
+    <header class="gradient-primary text-white p-8 rounded-lg mb-8 text-center">
+        <h1 class="text-4xl font-bold mb-4 text-shadow">Tailwind CSS + SASS</h1>
+        <p class="text-xl opacity-90">Démonstration de l'intégration réussie</p>
+    </header>
+
+    <!-- Section des boutons personnalisés -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-6 text-gray-800">Boutons personnalisés (SASS)</h2>
+        <div class="flex flex-wrap gap-4">
+            <button class="btn-primary">Bouton Principal</button>
+            <button class="btn-secondary">Bouton Secondaire</button>
+            <button class="btn-success">Bouton Succès</button>
+            <button class="btn-warning">Bouton Attention</button>
+            <button class="btn-error">Bouton Erreur</button>
+        </div>
+    </section>
+
+    <!-- Section des cartes -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-6 text-gray-800">Cartes personnalisées (SASS)</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="card">
+                <h3 class="text-lg font-semibold mb-2">Carte Standard</h3>
+                <p class="text-gray-600">Utilise le mixin @include card() avec les paramètres par défaut.</p>
+            </div>
+            <div class="card-compact">
+                <h3 class="text-lg font-semibold mb-2">Carte Compacte</h3>
+                <p class="text-gray-600">Padding réduit et ombre légère pour un style minimaliste.</p>
+            </div>
+            <div class="card-elevated">
+                <h3 class="text-lg font-semibold mb-2">Carte Élevée</h3>
+                <p class="text-gray-600">Padding augmenté et ombre prononcée pour plus de présence.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section des formulaires -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-6 text-gray-800">Formulaires personnalisés</h2>
+        <div class="max-w-md">
+            <div class="mb-4">
+                <label class="form-label">Nom complet</label>
+                <input type="text" class="form-input" placeholder="Entrez votre nom">
+            </div>
+            <div class="mb-4">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-input" placeholder="votre@email.com">
+            </div>
+            <div class="mb-6">
+                <label class="form-label">Message</label>
+                <textarea class="form-input" rows="4" placeholder="Votre message..."></textarea>
+            </div>
+            <button class="btn-primary w-full">Envoyer le message</button>
+        </div>
+    </section>
+
+    <!-- Section des utilitaires Tailwind CSS -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-6 text-gray-800">Classes Tailwind CSS</h2>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Couleurs et typographie -->
+            <div>
+                <h3 class="text-lg font-semibold mb-4">Couleurs et Typographie</h3>
+                <div class="space-y-2">
+                    <p class="text-blue-600 font-medium">Texte bleu avec font-medium</p>
+                    <p class="text-green-500 text-lg">Texte vert en taille large</p>
+                    <p class="text-red-400 italic">Texte rouge en italique</p>
+                    <p class="text-purple-700 underline">Texte violet souligné</p>
+                </div>
+            </div>
+
+            <!-- Espacement et layout -->
+            <div>
+                <h3 class="text-lg font-semibold mb-4">Espacement et Layout</h3>
+                <div class="bg-gray-100 p-4 rounded">
+                    <div class="bg-blue-200 p-2 mb-2 rounded">Padding et margin</div>
+                    <div class="bg-green-200 p-3 mb-2 rounded">Différents espacements</div>
+                    <div class="bg-yellow-200 p-4 rounded">Layout responsive</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section des utilitaires personnalisés -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-6 text-gray-800">Utilitaires personnalisés (SASS)</h2>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div>
+                <h3 class="text-lg font-semibold mb-4 text-shadow">Ombres de texte</h3>
+                <p class="text-shadow mb-2">Texte avec ombre standard</p>
+                <p class="text-shadow-lg text-xl font-bold">Texte avec ombre large</p>
+            </div>
+            <div>
+                <h3 class="text-lg font-semibold mb-4">Gradients personnalisés</h3>
+                <div class="gradient-success p-4 rounded text-white mb-2">Gradient succès</div>
+                <div class="gradient-warning p-4 rounded text-white">Gradient attention</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section de troncature de texte -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-6 text-gray-800">Troncature de texte</h2>
+        <div class="space-y-4">
+            <div class="max-w-xs">
+                <h4 class="font-medium mb-2">Une ligne :</h4>
+                <p class="text-truncate bg-gray-100 p-2 rounded">
+                    Ce texte très long sera tronqué sur une seule ligne avec des points de suspension à la fin.
+                </p>
+            </div>
+            <div class="max-w-xs">
+                <h4 class="font-medium mb-2">Deux lignes :</h4>
+                <p class="text-truncate-2 bg-gray-100 p-2 rounded">
+                    Ce texte plus long sera tronqué après exactement deux lignes, permettant un peu plus de contenu visible avant la troncature.
+                </p>
+            </div>
+            <div class="max-w-xs">
+                <h4 class="font-medium mb-2">Trois lignes :</h4>
+                <p class="text-truncate-3 bg-gray-100 p-2 rounded">
+                    Ce texte encore plus long sera tronqué après trois lignes complètes, offrant encore plus d'espace pour le contenu avant d'être coupé avec des points de suspension.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section d'animation -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-6 text-gray-800">Animations personnalisées</h2>
+        <div class="fade-in-up bg-gradient-to-r from-purple-400 to-pink-400 p-6 rounded-lg text-white text-center">
+            <h3 class="text-xl font-bold mb-2">Animation Fade In Up</h3>
+            <p>Cette section utilise une animation personnalisée définie en SASS</p>
+        </div>
+    </section>
+
+    <!-- Footer avec classes mixtes -->
+    <footer class="bg-gray-800 text-white p-6 rounded-lg text-center">
+        <p class="mb-2">Configuration Tailwind CSS + SASS réussie ! 🎉</p>
+        <p class="text-sm opacity-75">
+            Combinaison parfaite entre les utilitaires Tailwind et la puissance de SASS
+        </p>
+    </footer>
+</div>
+
+<!-- Script pour démonstration interactive -->
+<script>
+    // Animation au clic sur les boutons
+    document.querySelectorAll('[class*="btn-"]').forEach(button => {
+        button.addEventListener('click', function() {
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+            }, 150);
+        });
+    });
+</script>
+{% endblock %}

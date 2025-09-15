@@ -1,0 +1,115 @@
+// Importation des variables et mixins SASS avec le système de modules
+@use 'variables' as vars;
+@use 'mixins' as mix;
+
+// Référence Tailwind CSS pour utiliser @apply dans SASS
+@reference "tailwindcss";
+
+// Composants personnalisés
+@layer components {
+  .btn-primary {
+    @include mix.button-variant(vars.get-color('primary'));
+  }
+  
+  .btn-secondary {
+    @include mix.button-variant(vars.get-color('secondary'));
+  }
+  
+  .btn-success {
+    @include mix.button-variant(vars.get-color('success'));
+  }
+  
+  .btn-warning {
+    @include mix.button-variant(vars.get-color('warning'));
+  }
+  
+  .btn-error {
+    @include mix.button-variant(vars.get-color('error'));
+  }
+
+  .card {
+    @include mix.card();
+  }
+  
+  .card-compact {
+    @include mix.card(vars.get-spacing('4'), vars.get-shadow('sm'));
+  }
+  
+  .card-elevated {
+    @include mix.card(vars.get-spacing('8'), vars.get-shadow('lg'));
+  }
+  
+  .form-input {
+    @include mix.form-input;
+  }
+
+  .form-label {
+    @apply block text-sm font-medium text-gray-700 mb-2;
+  }
+
+  .text-truncate {
+    @include mix.text-truncate;
+  }
+  
+  .text-truncate-2 {
+    @include mix.text-truncate-multiline(2);
+  }
+  
+  .text-truncate-3 {
+    @include mix.text-truncate-multiline(3);
+  }
+}
+
+// Styles utilitaires personnalisés
+@layer utilities {
+  .text-shadow {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .text-shadow-lg {
+    text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .gradient-primary {
+    @include mix.gradient(135deg, vars.get-color('primary'), vars.get-color('secondary'));
+  }
+  
+  .gradient-success {
+    @include mix.gradient(135deg, vars.get-color('success'), vars.get-color('info'));
+  }
+  
+  .gradient-warning {
+    @include mix.gradient(135deg, vars.get-color('warning'), vars.get-color('error'));
+  }
+  
+  .shadow-custom {
+    @include mix.custom-shadow(0, 8px, 16px, 0, rgba(0, 0, 0, 0.15));
+  }
+  
+  .center-absolute {
+    @include mix.center-absolute;
+  }
+}
+
+// Styles responsifs personnalisés
+@media (max-width: 768px) {
+  .mobile-hidden {
+    display: none;
+  }
+}
+
+// Animation personnalisée
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.6s ease-out;
+}
