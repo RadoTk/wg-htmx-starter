@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>{{page.name}}</h1>
+    
+    {% if page.image %}
+    <img src="{{ page.image.url }}" alt="{{ page.name }}" width="400">
+    {% endif %}
+        
+    <p>{{ page.description }}</p>
+    <strong>{{ page.price }} £</strong>
+    
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Add to Cart</button>
+    </form>
+
+
+{% endblock content %}
+
