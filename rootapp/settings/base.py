@@ -43,8 +43,10 @@ INSTALLED_APPS = [
     "rootapp.locations",
     "rootapp.recipes",
     "rootapp.search",
+    "rootapp.ecommerce",
     # htmx
     "django_htmx",
+
 
     "wagtail.embeds",
     "wagtail.sites",
