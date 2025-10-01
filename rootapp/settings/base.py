@@ -44,8 +44,11 @@ INSTALLED_APPS = [
     "rootapp.recipes",
     "rootapp.search",
     "rootapp.ecommerce",
+    "rootapp.store",
+    "rootapp.cart",
     # htmx
     "django_htmx",
+    
 
 
     "wagtail.embeds",
@@ -82,7 +85,9 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sitemaps",
+
 ]
+
 
 MIDDLEWARE = [
     # Uncomment to enable django-debug-toolbar
