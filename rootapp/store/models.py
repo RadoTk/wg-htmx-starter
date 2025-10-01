@@ -60,7 +60,6 @@ class Product(Page):
         blank=True,
         related_name="+",
     )
-    name = models.CharField(max_length=100)
     description = RichTextField(blank=True)
     price_usd = models.DecimalField(max_digits=10, decimal_places=2)
     available = models.BooleanField(default=True)
@@ -70,7 +69,6 @@ class Product(Page):
     subpage_types: list[str] = []
 
     content_panels = Page.content_panels + [
-        FieldPanel("name"),
         FieldPanel("description", classname="full"),
         FieldPanel("price_usd"),
         FieldPanel("available"),

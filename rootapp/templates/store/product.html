@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+
+{% block content %}
+  <div class="container">
+    <h1>{{ page.title}}</h1>
+
+    {% if page.image %}
+      <img src="{{ page.image.url }}" alt="{{ page.name }}">
+    {% endif %}
+
+    <div class="description">
+      {{ page.description|richtext }}
+    </div>
+
+    <p class="price"><strong>Prix :</strong> {{ page.price_usd }} €</p>
+
+    {% include "store/add_to_cart.html" with product=page %}
+  </div>
+{% endblock %}

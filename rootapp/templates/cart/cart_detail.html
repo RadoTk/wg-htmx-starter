@@ -1,0 +1,6 @@
+<h1>Votre panier</h1>
+<ul>
+    {% for item_id, item in cart.items %}
+        <li>Produit ID: {{ item_id }} - Quantité: {{ item.quantity }}</li>
+    {% endfor %}
+</ul>
