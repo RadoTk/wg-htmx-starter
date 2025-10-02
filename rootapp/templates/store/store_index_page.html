@@ -22,7 +22,7 @@
           <p>{{ product.description|richtext }}</p>
           <p><strong>{{ product.price_usd }} €</strong></p>
 
-          {% include "store/add_to_cart.html" with product=page %}
+          {% include "store/add_to_cart.html" with product=product %}
         </div>
       {% empty %}
         <p>Aucun produit disponible pour le moment.</p>

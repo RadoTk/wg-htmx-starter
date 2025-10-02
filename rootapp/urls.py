@@ -13,6 +13,7 @@ from rootapp.search import views as search_views
 from .api import api_router
 
 urlpatterns = [
+    path('cart/', include('rootapp.cart.urls', namespace='cart')),
     path("django-admin/", admin.site.urls),
     path("admin/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),
@@ -22,7 +23,6 @@ urlpatterns = [
         name="wagtailimages_serve",
     ),
     path("search/", search_views.search, name="search"),
-    path('cart/', include('rootapp.cart.urls', namespace='cart')),
     path("sitemap.xml", sitemap),
     path("api/v2/", api_router.urls),
     path("__debug__/", include(debug_toolbar.urls)),
