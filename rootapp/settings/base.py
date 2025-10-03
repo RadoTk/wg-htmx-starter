@@ -77,7 +77,7 @@ INSTALLED_APPS = [
     "taggit",
     "wagtailfontawesomesvg",
     # Uncomment to enable django-debug-toolbar
-    "debug_toolbar",
+    #"debug_toolbar",
     "django_extensions",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -90,9 +90,13 @@ INSTALLED_APPS = [
 ]
 
 
+#FIXE(AR): ajout de clé pour stocker le panier dans la session
+CART_SESSION_ID = 'cart'
+
+
 MIDDLEWARE = [
     # Uncomment to enable django-debug-toolbar
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
+    #"debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",

@@ -4,8 +4,8 @@ from collections.abc import Generator
 from django.conf import settings
 from django.http import HttpRequest
 
-from shipping.calculator import get_book_shipping_cost
-from store.models import Product
+#FIXE(AR): Tout ce qui concerne Shipping a commenter, fonctionnalité en attente / from shipping.calculator import get_book_shipping_cost
+from rootapp.store.models import Product
 
 
 class Cart:
@@ -39,10 +39,15 @@ class Cart:
         self.save()
 
     def save(self) -> None:
-        # mark the session as "modified"
-        # to make sure it gets saved
-
+    # Convert Decimal to str before saving into session
+        for item in self.cart.values():
+            if isinstance(item.get("price"), Decimal):
+                item["price"] = str(item["price"])
+            if isinstance(item.get("total_price"), Decimal):
+                item["total_price"] = str(item["total_price"])
+        self.session[settings.CART_SESSION_ID] = self.cart
         self.session.modified = True
+
 
     def remove(self, product: Product) -> None:
         """Remove a product from the cart."""
@@ -63,7 +68,7 @@ class Cart:
         int_sum = sum(
             [
                 self.get_subtotal_cost(),
-                self.get_shipping_cost(),
+                #self.get_shipping_cost(),
             ],
         )
         return Decimal(int_sum).quantize(Decimal("0.01"))
@@ -75,10 +80,13 @@ class Cart:
         product_sum = sum(totals)
         return Decimal(product_sum).quantize(Decimal("0.01"))
 
-    def get_shipping_cost(self) -> Decimal:
-        book_quantity = sum(item["quantity"] for item in self.cart.values())
+    
+    
+    # FIXE(AR): A revoir, 
+    # def get_shipping_cost(self) -> Decimal:
+        # book_quantity = sum(item["quantity"] for item in self.cart.values())
 
-        return get_book_shipping_cost(book_quantity)
+        # return get_book_shipping_cost(book_quantity)
 
     def clear(self) -> None:
         # remove cart from session
@@ -90,19 +98,20 @@ class Cart:
 
     def __iter__(self) -> Generator:
         """Get cart products from the database."""
-        # get the product objects and add them to the cart
         products = self.get_cart_products()
-
-        cart = self.cart.copy()
+        cart_copy = {}
 
         for product in products:
-            cart[str(product.id)]["product"] = product
+            item = self.cart[str(product.id)].copy()
 
-        for item in cart.values():
+            item["product"] = product
             item["price"] = Decimal(item["price"])
             item["total_price"] = item["price"] * item["quantity"]
 
+            cart_copy[str(product.id)] = item
+
             yield item
+
 
     def __len__(self) -> int:
         """Count all items in the cart."""

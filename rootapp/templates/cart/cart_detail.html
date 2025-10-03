@@ -1,6 +1,20 @@
-<h1>Votre panier</h1>
-<ul>
-    {% for item_id, item in cart.items %}
-        <li>Produit ID: {{ item_id }} - Quantité: {{ item.quantity }}</li>
-    {% endfor %}
-</ul>
+{% extends "base.html" %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block title %}
+    Western Friend cart
+{% endblock title %}
+
+{% block content %}
+<main class="container mx-auto px-4 py-6">
+    <div class="flex justify-between items-center">
+        <h1>Your Cart</h1>
+    </div>
+
+    {% if cart|length == 0 %}
+        <p class="mt-4">Your cart is empty.</p>
+    {% else %}
+        {% include "cart/_cart_summary.html" %}
+    {% endif %}
+</main>
+{% endblock content %}
