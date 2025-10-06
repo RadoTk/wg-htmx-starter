@@ -16,12 +16,18 @@ def cart_add(request, product_id):
         cart.add(product=product, quantity=cd["quantity"])
         cart.save()
 
-    # Si c’est via HTMX, renvoyer le fragment panier
     if request.headers.get('Hx-Request'):
-        html = render_to_string("cart/_cart_summary.html", {"cart": cart}, request=request)
+        store_index_page = StoreIndexPage.objects.first()
+        html = render_to_string(
+            "cart/_cart_summary.html",
+            {"cart": cart, "store_index_page": store_index_page},
+            request=request
+        )
         return HttpResponse(html)
 
     return redirect("cart:cart_detail")
+
+
 
 @require_GET
 def cart_remove(request, product_id):
@@ -30,10 +36,16 @@ def cart_remove(request, product_id):
     cart.remove(product)
 
     if request.headers.get('Hx-Request'):
-        html = render_to_string("cart/_cart_summary.html", {"cart": cart}, request=request)
+        store_index_page = StoreIndexPage.objects.first()
+        html = render_to_string(
+            "cart/_cart_summary.html",
+            {"cart": cart, "store_index_page": store_index_page},
+            request=request
+        )
         return HttpResponse(html)
 
     return redirect("cart:cart_detail")
+
 
 @require_POST
 def cart_update(request, product_id):
@@ -50,10 +62,16 @@ def cart_update(request, product_id):
         cart.save()
 
     if request.headers.get('Hx-Request'):
-        html = render_to_string("cart/_cart_summary.html", {"cart": cart}, request=request)
+        store_index_page = StoreIndexPage.objects.first()
+        html = render_to_string(
+            "cart/_cart_summary.html",
+            {"cart": cart, "store_index_page": store_index_page},
+            request=request
+        )
         return HttpResponse(html)
 
     return redirect("cart:cart_detail")
+
 
 @require_GET
 def cart_detail(request):

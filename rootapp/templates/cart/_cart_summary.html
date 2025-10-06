@@ -87,4 +87,25 @@
             </table>
         </div>
     {% endif %}
+
+    <div class="d-flex justify-content-end mt-4">
+        <ul class="list-unstyled d-flex gap-2">
+            <li>
+                <a href="{{ store_index_page.url }}" class="btn btn-secondary">
+                    ← Back to store
+                </a>
+            </li>
+            <li>
+                {% if cart|length > 0 %}
+                    <a href="#" class="btn btn-primary">
+                        Checkout →
+                    </a>
+                {% else %}
+                    <a href="#" class="btn btn-outline-secondary disabled" aria-disabled="true">
+                        Checkout →
+                    </a>
+                {% endif %}
+            </li>
+        </ul>
+    </div>
 </div>
