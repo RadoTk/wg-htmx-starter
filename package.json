@@ -1,7 +1,10 @@
 {
   "name": "rootapp",
   "version": "1.0.0",
-  "repository": "https://github.com/wagtail/rootapp",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wagtail/rootapp.git"
+  },
   "private": true,
   "engines": {
     "node": ">=22"
@@ -15,7 +18,7 @@
     "npm-run-all": "^4.1.5",
     "postcss": "^8.5.6",
     "postcss-cli": "^11.0.1",
-    "prettier": "^3.1.0",
+    "prettier": "3.6.2",
     "sass": "^1.92.1",
     "stylelint": "^15.11.0",
     "stylelint-config-standard": "^34.0.0",
@@ -37,5 +40,14 @@
     "watch:templates": "chokidar \"rootapp/templates/**/*.html\" -c \"npm run build\"",
     "dev": "run-p watch:sass watch:postcss watch:templates",
     "dev:simple": "run-p watch:sass watch:templates"
-  }
+  },
+  "description": "This is a demonstration project for the amazing [Wagtail CMS](https://github.com/wagtail/wagtail).",
+  "main": "postcss.config.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wagtail/rootapp/issues"
+  },
+  "homepage": "https://github.com/wagtail/rootapp#readme"
 }

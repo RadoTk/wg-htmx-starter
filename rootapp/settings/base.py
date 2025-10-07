@@ -46,8 +46,10 @@ INSTALLED_APPS = [
     "rootapp.ecommerce",
     "rootapp.store",
     "rootapp.cart",
+    "rootapp.orders",
     # htmx
     "django_htmx",
+
     
 
 
@@ -86,6 +88,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sitemaps",
+
+    "widget_tweaks",
 
 ]
 

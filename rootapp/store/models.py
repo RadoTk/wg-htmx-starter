@@ -1,6 +1,6 @@
 from django.db import models
 from django.http import HttpRequest
-from modelcluster.fields import ParentalKey  # type: ignore
+from modelcluster.fields import ParentalKey 
 from wagtail.admin.panels import FieldPanel, InlinePanel, PageChooserPanel
 from wagtail.fields import RichTextField
 from wagtail.models import Orderable, Page

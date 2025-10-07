@@ -88,24 +88,29 @@
         </div>
     {% endif %}
 
-    <div class="d-flex justify-content-end mt-4">
-        <ul class="list-unstyled d-flex gap-2">
-            <li>
-                <a href="{{ store_index_page.url }}" class="btn btn-secondary">
-                    ← Back to store
-                </a>
-            </li>
-            <li>
-                {% if cart|length > 0 %}
-                    <a href="#" class="btn btn-primary">
-                        Checkout →
+    <div class="flex justify-content-end mt-8">
+        <div class="joining" role="group" aria-label="Cart navigation">
+            <ul class="list-unstyled d-flex gap-2">
+                <li>
+                    <a href="{{ store_index_page.url }}" class="btn btn-outline join-item" aria-label="Back to bookstore">
+                        ← Back to store
                     </a>
-                {% else %}
-                    <a href="#" class="btn btn-outline-secondary disabled" aria-disabled="true">
-                        Checkout →
-                    </a>
-                {% endif %}
-            </li>
-        </ul>
+                </li>
+                <li>
+                    {% if cart|length > 0 %}
+                        <a href="{% url 'orders:order_create' %}" class="btn btn-primary">
+                            Checkout →
+                        </a>
+                    {% else %}
+                        <a href="#" class="btn btn-outline-secondary disabled" aria-disabled="true">
+                            Checkout →
+                        </a>
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
     </div>
+
 </div>
+
+
