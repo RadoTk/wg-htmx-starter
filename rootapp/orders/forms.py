@@ -10,7 +10,7 @@ class OrderCreateForm(forms.ModelForm):
             "shopper_email",
             "shopper_address",     
             "shopper_postal_code",
-            "shopper_city",
+            "shopper_country",
         ]
         labels = {
             "shopper_first_name": "First name",
@@ -18,7 +18,7 @@ class OrderCreateForm(forms.ModelForm):
             "shopper_email": "E-mail",
             "shopper_address": "Address",
             "shopper_postal_code": "Postal code",
-            "shopper_city": "City",
+            "shopper_country": "Country",
         }
         widgets = {
             "shopper_first_name": forms.TextInput(attrs={"placeholder": "Enter the given name for the purchaser"}),
@@ -26,6 +26,6 @@ class OrderCreateForm(forms.ModelForm):
             "shopper_email": forms.EmailInput(attrs={"placeholder": "Provide an email"}),
             "shopper_address": forms.TextInput(attrs={"placeholder": "Street address or PO box"}),
             "shopper_postal_code": forms.TextInput(attrs={"placeholder": "Postal code"}),
-            "shopper_city": forms.Select(),
+            "shopper_country": forms.Select(),
         }
 
