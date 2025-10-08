@@ -83,11 +83,16 @@
             </div>
 
             <div class="d-grid mt-4">
+              <a href="{% url 'cart:cart_detail' %}" class="btn btn-outline-secondary btn-lg">
+                🔙 Retour au panier
+              </a>
               <button type="submit" class="btn btn-success btn-lg">✅ Passer la commande</button>
+              
             </div>
 
           </form>
 
+          <!-- FIXE(AR): fix affichage de message d'erreur quand il y a un champ incorrecte -->
           {% if form.errors %}
             <div class="alert alert-danger">
                 <p><strong>Veuillez corriger les erreurs suivantes :</strong></p>
