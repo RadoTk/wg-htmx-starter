@@ -3,6 +3,8 @@ from django.shortcuts import render
 
 from django.shortcuts import redirect, render
 from django.urls import reverse
+
+from django.template.loader import render_to_string
 from rootapp.cart.cart import Cart
 from rootapp.orders.forms import OrderCreateForm
 from .models import Order, OrderItem
@@ -54,3 +56,10 @@ def order_create(request: HttpRequest) -> HttpResponse:
 
 def order_thanks(request):
     return render(request, 'orders/thanks.html')
+
+
+
+def orders_live(request):
+    orders = Order.objects.order_by('-created_at')[:20]
+    html = render_to_string("orders/includes/live_order_list_partial.html", {"orders": orders})
+    return HttpResponse(html)

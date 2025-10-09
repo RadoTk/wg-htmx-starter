@@ -78,6 +78,3 @@ class OrderItem(Orderable):
     def get_cost(self) -> Decimal:
         return (self.price * self.quantity).quantize(Decimal("0.01"))
     
-
-    
-
