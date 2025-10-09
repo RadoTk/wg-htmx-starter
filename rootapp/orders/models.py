@@ -20,8 +20,8 @@ class Country(models.Model):
         return self.name
 
 class BaseOrder(models.Model):
-    shopper_first_name = models.CharField(max_length=255, default="", blank=True)
-    shopper_name = models.CharField(max_length=255, default="", blank=True)
+    shopper_first_name = models.CharField(max_length=255)
+    shopper_name = models.CharField(max_length=255)
     shopper_email = models.EmailField()
     shopper_address = models.CharField(max_length=255)
     shopper_postal_code = models.CharField(max_length=16)

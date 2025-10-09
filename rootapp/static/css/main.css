@@ -205,12 +205,12 @@ a.btn-sm {
 }
 
 ul {
-  margin: 0 0 30px;
+  margin: 0 0 10px;
 }
 
 @media (min-width: 768px) {
   ul {
-    margin: 0 0 50px;
+    margin: 0 0 16px;
   }
 }
 
