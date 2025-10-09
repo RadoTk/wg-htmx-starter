@@ -5,6 +5,8 @@ from modelcluster.models import ClusterableModel
 from decimal import Decimal
 from django.utils.html import mark_safe
 from django.template.loader import render_to_string
+from django.urls import reverse
+from django.utils.html import format_html
 
 
 class Country(models.Model):
@@ -53,6 +55,16 @@ class Order(BaseOrder, ClusterableModel):
     formatted_items_table.short_description = "Produits commandés"
 
 
+    def view_items_link(self):
+        try:
+            url = reverse("order:inspect", args=[self.pk])
+        except Exception as e:
+            return f"(Erreur de lien: {e})"
+        return format_html('<a class="button button-small" href="{}">Voir produits</a>', url)
+
+    view_items_link.short_description = "Produits"
+
+
 class OrderItem(Orderable):
     order = ParentalKey(Order, related_name="items", on_delete=models.CASCADE)
     product_title = models.CharField(max_length=255)
@@ -65,5 +77,7 @@ class OrderItem(Orderable):
 
     def get_cost(self) -> Decimal:
         return (self.price * self.quantity).quantize(Decimal("0.01"))
+    
+
     
 

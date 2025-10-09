@@ -1,17 +1,17 @@
-<table class="table table-bordered">
+<table class="listing full-width">
   <thead>
     <tr>
-      <th>Produit</th>
-      <th>Quantité</th>
-      <th>Prix unitaire</th>
-      <th>Total</th>
+      <th scope="col">Produit</th>
+      <th scope="col">Quantité</th>
+      <th scope="col">Prix unitaire</th>
+      <th scope="col">Total</th>
     </tr>
   </thead>
   <tbody>
     {% for item in order.items.all %}
     <tr>
       <td>{{ item.product_title }}</td>
-      <td>{{ item.quantity }}</td>
+      <td class="text-center">{{ item.quantity }}</td>
       <td>{{ item.price }} €</td>
       <td>{{ item.get_cost }} €</td>
     </tr>
