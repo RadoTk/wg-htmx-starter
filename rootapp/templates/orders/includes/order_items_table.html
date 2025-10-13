@@ -1,3 +1,10 @@
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+  <h2 style="margin: 0;">🧾 Produits commandés</h2>
+  <a href="{% url 'order:edit' order.pk %}" class="button button-secondary">
+    🛠 Changer le statut
+  </a>
+</div>
+
 <table class="listing full-width">
   <thead>
     <tr>

@@ -80,7 +80,6 @@ class Order(BaseOrder, ClusterableModel):
                 if default_status:
                     self.status = default_status
             except:
-                # En cas d'erreur (table non créée), on ignore
                 pass
         super().save(*args, **kwargs)
     
@@ -110,6 +109,7 @@ class Order(BaseOrder, ClusterableModel):
         total = sum(item.get_cost() for item in self.items.all())
         return total.quantize(Decimal("0.01"))
 
+    # inspect product
     def formatted_items_table(self):
         if not self.items.exists():
             return "Aucun produit dans cette commande."
@@ -117,6 +117,7 @@ class Order(BaseOrder, ClusterableModel):
         html = render_to_string("orders/includes/order_items_table.html", {"order": self})
         return mark_safe(html)
     formatted_items_table.short_description = "Produits commandés"
+
 
     def view_items_link(self):
         try:
@@ -127,16 +128,7 @@ class Order(BaseOrder, ClusterableModel):
     view_items_link.short_description = "Produits"
 
 
-    def get_status_display_with_color(self):
-        """Méthode pour afficher le statut avec couleur même en mode édition"""
-        if self.status:
-            return format_html(
-                '<span style="color: {};">● {}</span>',
-                self.status.color,
-                self.status.name
-            )
-        return "Non défini"
-    
+
     def get_allowed_status_transitions(self):
         current_code = self.status.code if self.status else "new"
         transitions = {

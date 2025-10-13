@@ -1,11 +1,10 @@
 from wagtail.admin.viewsets.model import ModelViewSet
 from wagtail import hooks
-from .models import Order
-from .admin_forms import OrderAdminForm 
+from .models import Order, OrderStatus
 
 class OrderViewSet(ModelViewSet):
     model = Order
-    menu_label = "Commandes"
+    menu_label = "Orders"
     menu_icon = "doc-full"
     menu_order = 200
     add_to_admin_menu = True
@@ -13,7 +12,6 @@ class OrderViewSet(ModelViewSet):
     add_view_enabled = False
     edit_view_enabled = True
 
-    form_class = OrderAdminForm
 
     form_fields = ["status"]  
 
@@ -27,6 +25,7 @@ class OrderViewSet(ModelViewSet):
         "colored_status",  
         "shopper_full_name", 
         "shopper_email", 
+        "shopper_address",
         "shopper_country", 
         "created_at", 
         "view_items_link"
@@ -41,3 +40,31 @@ class OrderViewSet(ModelViewSet):
 @hooks.register("register_admin_viewset")
 def register_order_viewset():
     return OrderViewSet()
+
+
+
+# @hooks.register('insert_global_admin_js')
+# def global_admin_js():
+#     return """
+#     <script src="/static/js/admin_notifications.js"></script>
+#     """
+
+
+@hooks.register('construct_main_menu')
+def add_orders_notification_badge(request, menu_items):
+    try:
+        new_status = OrderStatus.objects.get(code='new', is_active=True)
+        new_orders_count = Order.objects.filter(status=new_status).count()
+    except OrderStatus.DoesNotExist:
+        new_orders_count = 0
+    except Exception:
+        new_orders_count = 0
+
+    for item in menu_items:
+        if item.name == 'orders':
+            original_label = "Orders"  # tu peux aussi utiliser item.label.split()[0] pour récupérer la base
+            if new_orders_count > 0:
+                item.label = f"{original_label} 🔴 {new_orders_count}"
+            else:
+                item.label = original_label
+            break
