@@ -57,9 +57,3 @@ def order_create(request: HttpRequest) -> HttpResponse:
 def order_thanks(request):
     return render(request, 'orders/thanks.html')
 
-
-
-def orders_live(request):
-    orders = Order.objects.order_by('-created_at')[:20]
-    html = render_to_string("orders/includes/live_order_list_partial.html", {"orders": orders})
-    return HttpResponse(html)

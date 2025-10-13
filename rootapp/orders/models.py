@@ -3,11 +3,9 @@ from wagtail.models import Orderable
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 from decimal import Decimal
-from django.utils.html import mark_safe
+from django.utils.html import mark_safe, format_html
 from django.template.loader import render_to_string
 from django.urls import reverse
-from django.utils.html import format_html
-
 
 class Country(models.Model):
     name = models.CharField(max_length=255, unique=True)
@@ -18,6 +16,33 @@ class Country(models.Model):
 
     def __str__(self):
         return self.name
+
+class OrderStatus(models.Model):
+    """
+    Modèle réutilisable pour gérer les statuts de commande
+    """
+    code = models.SlugField(max_length=50, unique=True)
+    name = models.CharField(max_length=100)
+    description = models.TextField(blank=True)
+    color = models.CharField(max_length=7, default="#000000")
+    is_active = models.BooleanField(default=True)
+    sort_order = models.PositiveIntegerField(default=0)
+    
+    class Meta:
+        verbose_name = "Statut de commande"
+        verbose_name_plural = "Statuts de commande"
+        ordering = ['sort_order', 'name']
+    
+    def __str__(self):
+        return self.name
+    
+    def colored_name(self):
+        return format_html(
+            '<span style="color: {};">●</span> {}',
+            self.color,
+            self.name
+        )
+    colored_name.short_description = "Statut"
 
 class BaseOrder(models.Model):
     shopper_first_name = models.CharField(max_length=255)
@@ -31,12 +56,50 @@ class BaseOrder(models.Model):
     class Meta:
         abstract = True
 
-
 class Order(BaseOrder, ClusterableModel):
-
+    status = models.ForeignKey(
+        OrderStatus,
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+        verbose_name="Statut de la commande"
+    )
+    
     def __str__(self):
-        return f"Order {self.id}"
-
+        status_name = self.status.name if self.status else "Nouvelle"
+        return f"Commande {self.id} - {status_name}"
+    
+    def save(self, *args, **kwargs):
+        if not self.status:
+            try:
+                default_status = OrderStatus.objects.filter(
+                    is_active=True
+                ).order_by('sort_order').first()
+                if default_status:
+                    self.status = default_status
+            except:
+                # En cas d'erreur (table non créée), on ignore
+                pass
+        super().save(*args, **kwargs)
+    
+    @property
+    def status_color(self):
+        return self.status.color if self.status else "#6c757d"
+    
+    @property 
+    def status_name(self):
+        return self.status.name if self.status else "Nouvelle"
+    
+    def colored_status(self):
+        status_name = self.status_name
+        color = self.status_color
+        return format_html(
+            '<span style="color: {}; font-weight: bold;">● {}</span>',
+            color,
+            status_name
+        )
+    colored_status.short_description = "Statut"
+    
     @property
     def shopper_full_name(self) -> str:
         return f"{self.shopper_first_name} {self.shopper_name}".strip()
@@ -51,9 +114,7 @@ class Order(BaseOrder, ClusterableModel):
 
         html = render_to_string("orders/includes/order_items_table.html", {"order": self})
         return mark_safe(html)
-
     formatted_items_table.short_description = "Produits commandés"
-
 
     def view_items_link(self):
         try:
@@ -61,9 +122,17 @@ class Order(BaseOrder, ClusterableModel):
         except Exception as e:
             return f"(Erreur de lien: {e})"
         return format_html('<a class="button button-small" href="{}">Voir produits</a>', url)
-
     view_items_link.short_description = "Produits"
 
+    def get_status_display_with_color(self):
+        """Méthode pour afficher le statut avec couleur même en mode édition"""
+        if self.status:
+            return format_html(
+                '<span style="color: {};">● {}</span>',
+                self.status.color,
+                self.status.name
+            )
+        return "Non défini"
 
 class OrderItem(Orderable):
     order = ParentalKey(Order, related_name="items", on_delete=models.CASCADE)
@@ -77,4 +146,3 @@ class OrderItem(Orderable):
 
     def get_cost(self) -> Decimal:
         return (self.price * self.quantity).quantize(Decimal("0.01"))
-    
