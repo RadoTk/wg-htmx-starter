@@ -1,18 +1,21 @@
 from wagtail.admin.viewsets.model import ModelViewSet
 from wagtail import hooks
 from .models import Order
+from .admin_forms import OrderAdminForm 
 
 class OrderViewSet(ModelViewSet):
     model = Order
     menu_label = "Commandes"
-    menu_icon = "doc-full"  # Icône pour le menu
+    menu_icon = "doc-full"
     menu_order = 200
     add_to_admin_menu = True
 
     add_view_enabled = False
     edit_view_enabled = True
-   
-    form_fields = ["status"]
+
+    form_class = OrderAdminForm
+
+    form_fields = ["status"]  
 
     inspect_view_enabled = True
     inspect_view_fields = [
@@ -31,7 +34,7 @@ class OrderViewSet(ModelViewSet):
     
     list_filter = ["status"]
     search_fields = ["shopper_name", "shopper_email", "shopper_first_name"]
-    
+
     icon = "doc-full" 
     header_icon = "doc-full"
 

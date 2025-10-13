@@ -6,6 +6,8 @@ from decimal import Decimal
 from django.utils.html import mark_safe, format_html
 from django.template.loader import render_to_string
 from django.urls import reverse
+from django.core.exceptions import ValidationError
+
 
 class Country(models.Model):
     name = models.CharField(max_length=255, unique=True)
@@ -19,7 +21,7 @@ class Country(models.Model):
 
 class OrderStatus(models.Model):
     """
-    Modèle réutilisable pour gérer les statuts de commande
+    Modèle pour gérer les statuts de commande
     """
     code = models.SlugField(max_length=50, unique=True)
     name = models.CharField(max_length=100)
@@ -124,6 +126,7 @@ class Order(BaseOrder, ClusterableModel):
         return format_html('<a class="button button-small" href="{}">Voir produits</a>', url)
     view_items_link.short_description = "Produits"
 
+
     def get_status_display_with_color(self):
         """Méthode pour afficher le statut avec couleur même en mode édition"""
         if self.status:
@@ -133,6 +136,26 @@ class Order(BaseOrder, ClusterableModel):
                 self.status.name
             )
         return "Non défini"
+    
+    def get_allowed_status_transitions(self):
+        current_code = self.status.code if self.status else "new"
+        transitions = {
+            "new": ["in_progress", "cancelled"],
+            "in_progress": ["packaged", "cancelled"],
+            "packaged": ["in_delivery"],
+            "in_delivery": ["delivered"],
+            "delivered": [],
+            "cancelled": [],
+        }
+        return transitions.get(current_code, [])
+
+    def clean(self):
+        if self.pk:
+            original = Order.objects.get(pk=self.pk)
+            allowed = original.get_allowed_status_transitions()
+            if self.status and self.status.code not in allowed:
+                raise ValidationError(f"Transition vers '{self.status.name}' non autorisée depuis '{original.status.name}'.")
+
 
 class OrderItem(Orderable):
     order = ParentalKey(Order, related_name="items", on_delete=models.CASCADE)
