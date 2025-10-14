@@ -91,6 +91,8 @@ INSTALLED_APPS = [
 
     "widget_tweaks",
 
+    "channels",
+
 ]
 
 
@@ -274,3 +276,12 @@ if "CSP_DEFAULT_SRC" in os.environ:
         CSP_FRAME_SRC = os.environ.get("CSP_FRAME_SRC").split(",")
     if "CSP_REPORT_URI" in os.environ:
         CSP_REPORT_URI = os.environ.get("CSP_REPORT_URI")
+
+
+ASGI_APPLICATION = 'rootapp.asgi.application'
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",  # Dev only
+    }
+}

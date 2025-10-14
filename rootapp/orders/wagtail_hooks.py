@@ -1,6 +1,8 @@
 from wagtail.admin.viewsets.model import ModelViewSet
 from wagtail import hooks
 from .models import Order, OrderStatus
+from django.utils.html import format_html
+
 
 class OrderViewSet(ModelViewSet):
     model = Order
@@ -43,11 +45,12 @@ def register_order_viewset():
 
 
 
-# @hooks.register('insert_global_admin_js')
-# def global_admin_js():
-#     return """
-#     <script src="/static/js/admin_notifications.js"></script>
-#     """
+from wagtail import hooks
+from django.utils.html import format_html
+
+@hooks.register('insert_global_admin_js')
+def global_admin_js():
+    return format_html('<script src="/static/js/admin_notifications.js"></script>')
 
 
 @hooks.register('construct_main_menu')
@@ -62,9 +65,15 @@ def add_orders_notification_badge(request, menu_items):
 
     for item in menu_items:
         if item.name == 'orders':
-            original_label = "Orders"  # tu peux aussi utiliser item.label.split()[0] pour récupérer la base
+            original_label = "Orders"  
             if new_orders_count > 0:
                 item.label = f"{original_label} 🔴 {new_orders_count}"
             else:
                 item.label = original_label
             break
+
+
+
+@hooks.register('insert_global_admin_js')
+def global_admin_js():
+    return format_html('<script src="/static/js/admin_notifications.js"></script>')

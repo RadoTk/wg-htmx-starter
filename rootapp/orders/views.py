@@ -7,8 +7,11 @@ from django.urls import reverse
 from django.template.loader import render_to_string
 from rootapp.cart.cart import Cart
 from rootapp.orders.forms import OrderCreateForm
-from .models import Order, OrderItem
+from .models import Order, OrderItem, OrderStatus
 from django.http import HttpRequest, HttpResponse, QueryDict
+
+from django.http import JsonResponse
+
 
 
 def create_cart_order_items(
@@ -56,4 +59,11 @@ def order_create(request: HttpRequest) -> HttpResponse:
 
 def order_thanks(request):
     return render(request, 'orders/thanks.html')
+
+
+
+def refresh_order_badge(request):
+    status = OrderStatus.objects.filter(code='new', is_active=True).first()
+    count = Order.objects.filter(status=status).count() if status else 0
+    return JsonResponse({'count': count})
 
