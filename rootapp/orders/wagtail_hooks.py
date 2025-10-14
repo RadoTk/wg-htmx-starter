@@ -44,15 +44,6 @@ def register_order_viewset():
     return OrderViewSet()
 
 
-
-from wagtail import hooks
-from django.utils.html import format_html
-
-@hooks.register('insert_global_admin_js')
-def global_admin_js():
-    return format_html('<script src="/static/js/admin_notifications.js"></script>')
-
-
 @hooks.register('construct_main_menu')
 def add_orders_notification_badge(request, menu_items):
     try:
