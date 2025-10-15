@@ -10,20 +10,6 @@
         }
     };
     
-    // // ✅ Vérifie toutes les 20 minutes s'il y a de nouvelles commandes
-    // setInterval(() => {
-    //     fetch('/orders/refresh-badge/')
-    //         .then(res => res.json())
-    //         .then(data => {
-    //             if (data.count > 0) {
-    //                 showBanner("Nouvelle commande reçue ! Cliquez ici pour la charger.");
-    //             }
-    //         })
-    //         .catch(err => {
-    //             console.error("Erreur lors de la vérification des nouvelles commandes :", err);
-    //         });
-    // }, 20 * 60 * 1000); // 20 minutes
-
 
     function showBanner(message) {
         if (document.getElementById('new-order-banner')) return;

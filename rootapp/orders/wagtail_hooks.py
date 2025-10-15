@@ -24,13 +24,13 @@ class OrderViewSet(ModelViewSet):
 
     list_display = [
         "id", 
-        "colored_status",  
+        "get_colored_status_display",  
         "shopper_full_name", 
         "shopper_email", 
         "shopper_address",
         "shopper_country", 
         "created_at", 
-        "view_items_link"
+        "get_view_items_link"
     ]
     
     list_filter = ["status"]
@@ -38,6 +38,7 @@ class OrderViewSet(ModelViewSet):
 
     icon = "doc-full" 
     header_icon = "doc-full"
+
 
 @hooks.register("register_admin_viewset")
 def register_order_viewset():
@@ -47,8 +48,8 @@ def register_order_viewset():
 @hooks.register('construct_main_menu')
 def add_orders_notification_badge(request, menu_items):
     try:
-        new_status = OrderStatus.objects.get(code='new', is_active=True)
-        new_orders_count = Order.objects.filter(status=new_status).count()
+        new_order_status = OrderStatus.objects.get(code='new', is_active=True)
+        new_orders_count = Order.objects.filter(status=new_order_status).count()
     except OrderStatus.DoesNotExist:
         new_orders_count = 0
     except Exception:

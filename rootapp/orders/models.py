@@ -84,23 +84,25 @@ class Order(BaseOrder, ClusterableModel):
         super().save(*args, **kwargs)
     
     @property
-    def status_color(self):
+    def order_status_color(self):
         return self.status.color if self.status else "#6c757d"
     
     @property 
-    def status_name(self):
+    def order_status_name(self):
         return self.status.name if self.status else "Nouvelle"
     
-    def colored_status(self):
-        status_name = self.status_name
-        color = self.status_color
+    
+    def get_colored_status_display(self):
+        status_name = self.order_status_name
+        color = self.order_status_color
         return format_html(
             '<span style="color: {}; font-weight: bold;">● {}</span>',
             color,
             status_name
         )
-    colored_status.short_description = "Statut"
+    get_colored_status_display.short_description = "Statut"
     
+
     @property
     def shopper_full_name(self) -> str:
         return f"{self.shopper_first_name} {self.shopper_name}".strip()
@@ -119,17 +121,17 @@ class Order(BaseOrder, ClusterableModel):
     formatted_items_table.short_description = "Produits commandés"
 
 
-    def view_items_link(self):
+    def get_view_items_link(self):
         try:
             url = reverse("order:inspect", args=[self.pk])
         except Exception as e:
             return f"(Erreur de lien: {e})"
         return format_html('<a class="button button-small" href="{}">Voir produits</a>', url)
-    view_items_link.short_description = "Produits"
+    get_view_items_link.short_description = "Produits"
 
 
 
-    def get_allowed_status_transitions(self):
+    def allowed_status_transitions(self):
         current_code = self.status.code if self.status else "new"
         transitions = {
             "new": ["in_progress", "cancelled"],
@@ -144,7 +146,7 @@ class Order(BaseOrder, ClusterableModel):
     def clean(self):
         if self.pk:
             original = Order.objects.get(pk=self.pk)
-            allowed = original.get_allowed_status_transitions()
+            allowed = original.allowed_status_transitions()
             if self.status and self.status.code not in allowed:
                 raise ValidationError(f"Transition vers '{self.status.name}' non autorisée depuis '{original.status.name}'.")
 

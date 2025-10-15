@@ -16,7 +16,6 @@ class Cart:
         cart = self.session.get(settings.CART_SESSION_ID)
 
         if not cart:
-            # save an empty cart in the session
             cart = self.session[settings.CART_SESSION_ID] = {}
 
         self.cart = cart
@@ -27,7 +26,7 @@ class Cart:
         quantity: int = 1,
     ) -> None:
         """Add a product to the cart or update its quantity."""
-        product_id = str(product.id)  # type: ignore
+        product_id = str(product.id)  
 
         self.cart[product_id] = {
             "product_title": product.title,
@@ -39,7 +38,7 @@ class Cart:
         self.save()
 
     def save(self) -> None:
-    # Convert Decimal to str before saving into session
+        """Sauvegarde le panier dans la session."""
         for item in self.cart.values():
             if isinstance(item.get("price"), Decimal):
                 item["price"] = str(item["price"])
@@ -51,7 +50,7 @@ class Cart:
 
     def remove(self, product: Product) -> None:
         """Remove a product from the cart."""
-        product_id = str(product.id)  # type: ignore
+        product_id = str(product.id)  
 
         if product_id in self.cart:
             del self.cart[product_id]
@@ -59,12 +58,12 @@ class Cart:
             self.save()
 
     def get_cart_products(self) -> list[Product]:
+        """Retourne la liste des objets Product présents dans le panier."""
         product_ids = self.cart.keys()
-
-        # get the product objects and add them to the cart
         return Product.objects.filter(id__in=product_ids)
 
     def get_total_cost(self) -> Decimal:
+        """Retourne le coût total du panier (sous-total + éventuels frais)."""
         int_sum = sum(
             [
                 self.get_subtotal_cost(),
@@ -80,12 +79,9 @@ class Cart:
         product_sum = sum(totals)
         return Decimal(product_sum).quantize(Decimal("0.01"))
 
-    
-    
     # FIXE(AR): A revoir, 
     # def get_shipping_cost(self) -> Decimal:
         # book_quantity = sum(item["quantity"] for item in self.cart.values())
-
         # return get_book_shipping_cost(book_quantity)
 
     def clear(self) -> None:

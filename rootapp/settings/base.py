@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     "rootapp.locations",
     "rootapp.recipes",
     "rootapp.search",
-    "rootapp.ecommerce",
     "rootapp.store",
     "rootapp.cart",
     "rootapp.orders",
@@ -282,6 +281,6 @@ ASGI_APPLICATION = 'rootapp.asgi.application'
 
 CHANNEL_LAYERS = {
     "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer",  # Dev only
+        "BACKEND": "channels.layers.InMemoryChannelLayer",  
     }
 }

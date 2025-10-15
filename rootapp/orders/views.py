@@ -1,16 +1,9 @@
 from decimal import Decimal
-from django.shortcuts import render
-
 from django.shortcuts import redirect, render
-from django.urls import reverse
-
-from django.template.loader import render_to_string
 from rootapp.cart.cart import Cart
 from rootapp.orders.forms import OrderCreateForm
 from .models import Order, OrderItem, OrderStatus
-from django.http import HttpRequest, HttpResponse, QueryDict
-
-from django.http import JsonResponse
+from django.http import HttpRequest, HttpResponse, JsonResponse
 
 
 
@@ -57,12 +50,12 @@ def order_create(request: HttpRequest) -> HttpResponse:
     )
 
 
-def order_thanks(request):
+def order_thanks_view(request):
     return render(request, 'orders/thanks.html')
 
 
 
-def refresh_order_badge(request):
+def get_new_orders_count(request):
     status = OrderStatus.objects.filter(code='new', is_active=True).first()
     count = Order.objects.filter(status=status).count() if status else 0
     return JsonResponse({'count': count})

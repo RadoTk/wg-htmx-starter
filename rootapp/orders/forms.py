@@ -1,5 +1,3 @@
-# rootapp/orders/forms.py
-
 from django import forms
 from .models import Order
 

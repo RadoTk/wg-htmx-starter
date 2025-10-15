@@ -74,7 +74,7 @@ def cart_update(request, product_id):
 
 
 @require_GET
-def cart_detail(request):
+def show_cart_detail(request):
     cart = Cart(request)
     store_index_page = StoreIndexPage.objects.first()
     for item in cart:

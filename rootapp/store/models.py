@@ -1,12 +1,12 @@
 from django.db import models
+
 from django.http import HttpRequest
-from modelcluster.fields import ParentalKey 
-from wagtail.admin.panels import FieldPanel, InlinePanel, PageChooserPanel
+
+from wagtail.admin.panels import FieldPanel
 from wagtail.fields import RichTextField
-from wagtail.models import Orderable, Page
+from wagtail.models import Page
 
 from rootapp.cart.forms import CartAddProductForm
-#FIXE(AR): from common.models import DrupalFields
 
 
 class StoreIndexPage(Page):
@@ -20,20 +20,12 @@ class StoreIndexPage(Page):
     subpage_types: list[str] = [
         "store.StoreProductIndexPage",
     ]
-
     max_count = 1
 
-    def get_context(
-        self,
-        request: HttpRequest,
-        *args: tuple,
-        **kwargs: dict,
-    ) -> dict:
+    def get_context(self, request, *args, **kwargs) -> dict:
         context = super().get_context(request)
-
         context["products"] = Product.objects.all().order_by("-is_featured", "title")
         context["cart_add_product_form"] = CartAddProductForm()
-
         return context
     
 
@@ -49,9 +41,6 @@ class StoreProductIndexPage(Page):
         context["products"] = self.get_children().type(Product).live()
         return context
 
-
-
-#FIXE(AR): concept de DrupalFields, à ajouter (depuis la source)
 class Product(Page):
     image = models.ForeignKey(
         "wagtailimages.Image",
@@ -62,7 +51,7 @@ class Product(Page):
     )
     description = RichTextField(blank=True)
     price_usd = models.DecimalField(max_digits=10, decimal_places=2)
-    available = models.BooleanField(default=True)
+    is_available = models.BooleanField(default=True)
     is_featured = models.BooleanField(default=False)
 
     parent_page_types = ["store.StoreProductIndexPage"]
@@ -71,7 +60,7 @@ class Product(Page):
     content_panels = Page.content_panels + [
         FieldPanel("description", classname="full"),
         FieldPanel("price_usd"),
-        FieldPanel("available"),
+        FieldPanel("is_available"),
         FieldPanel("is_featured"),
         FieldPanel("image"),
     ]

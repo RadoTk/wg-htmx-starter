@@ -1,7 +1,7 @@
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 
-class OrdersAdminConsumer(AsyncWebsocketConsumer):
+class OrdersNotificationAdminConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.group_name = 'orders_admin'
 
