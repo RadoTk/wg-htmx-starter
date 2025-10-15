@@ -1,13 +1,20 @@
+import stripe
+
 from decimal import Decimal
 from django.shortcuts import redirect, render
 from rootapp.cart.cart import Cart
 from rootapp.orders.forms import OrderCreateForm
 from .models import Order, OrderItem, OrderStatus
 from django.http import HttpRequest, HttpResponse, JsonResponse
+from django.conf import settings
+
+from .webhooks import stripe_webhook
+
+stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 
-def create_cart_order_items(
+def add_items_to_order(
         order: Order,
         cart: Cart,
 ) -> None:
@@ -20,20 +27,48 @@ def create_cart_order_items(
             quantity=item["quantity"],
         )
 
-   
+
 def order_create(request: HttpRequest) -> HttpResponse:
     cart = Cart(request)
     shipping_cost = Decimal("0.00")
-    subtotal = cart.get_subtotal_cost()
+    subtotal = cart.get_cart_subtotal()
     total = subtotal + shipping_cost
 
     if request.method == "POST":
         form = OrderCreateForm(request.POST)
         if form.is_valid():
             order = form.save()
-            create_cart_order_items(order, cart)
+            add_items_to_order(order, cart)
             cart.clear()
-            return redirect("orders:order_thanks")
+
+            # ✅ Création session Stripe
+            line_items = []
+            for item in order.items.all():
+                line_items.append({
+                    "price_data": {
+                        "currency": "eur",
+                        "product_data": {
+                            "name": item.product_title,
+                        },
+                        "unit_amount": int(item.price * 100),  # en centimes
+                    },
+                    "quantity": item.quantity,
+                })
+
+            session = stripe.checkout.Session.create(
+                payment_method_types=["card"],
+                line_items=line_items,
+                mode="payment",
+                success_url=request.build_absolute_uri('/orders/thanks/'),
+                cancel_url=request.build_absolute_uri('/cart/'),
+                metadata={
+                    'order_id': str(order.id),
+                }
+            )
+
+
+            return redirect(session.url, code=303)
+
     else:
         form = OrderCreateForm()
 
@@ -50,8 +85,8 @@ def order_create(request: HttpRequest) -> HttpResponse:
     )
 
 
-def order_thanks_view(request):
-    return render(request, 'orders/thanks.html')
+def order_success_view(request):
+    return render(request, 'orders/success.html')
 
 
 

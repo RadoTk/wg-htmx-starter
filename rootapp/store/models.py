@@ -2,7 +2,7 @@ from django.db import models
 
 from django.http import HttpRequest
 
-from wagtail.admin.panels import FieldPanel
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from wagtail.fields import RichTextField
 from wagtail.models import Page
 
@@ -24,24 +24,27 @@ class StoreIndexPage(Page):
 
     def get_context(self, request, *args, **kwargs) -> dict:
         context = super().get_context(request)
-        context["products"] = Product.objects.all().order_by("-is_featured", "title")
+        context["products"] = StoreProduct.objects.all().order_by("-is_featured", "title")
         context["cart_add_product_form"] = CartAddProductForm()
         return context
     
+
 
 class StoreProductIndexPage(Page):
     max_count = 1
     parent_page_types = [
         "store.StoreIndexPage",
     ]
-    subpage_types = ["store.Product"]
+    subpage_types = ["store.StoreProduct"]
 
     def get_context(self, request):
         context = super().get_context(request)
-        context["products"] = self.get_children().type(Product).live()
+        context["products"] = self.get_children().type(StoreProduct).live()
         return context
 
-class Product(Page):
+
+
+class StoreProduct(Page):
     image = models.ForeignKey(
         "wagtailimages.Image",
         on_delete=models.SET_NULL,
@@ -51,19 +54,22 @@ class Product(Page):
     )
     description = RichTextField(blank=True)
     price_usd = models.DecimalField(max_digits=10, decimal_places=2)
-    is_available = models.BooleanField(default=True)
+    is_available = models.BooleanField(default=True, verbose_name="Disponible à la vente")
     is_featured = models.BooleanField(default=False)
 
     parent_page_types = ["store.StoreProductIndexPage"]
     subpage_types: list[str] = []
 
     content_panels = Page.content_panels + [
-        FieldPanel("description", classname="full"),
+    FieldPanel("description", classname="full"),
+    MultiFieldPanel([
         FieldPanel("price_usd"),
         FieldPanel("is_available"),
         FieldPanel("is_featured"),
-        FieldPanel("image"),
-    ]
+    ], heading="Informations produit"),
+    FieldPanel("image"),
+]
+
 
     def get_context(
         self,

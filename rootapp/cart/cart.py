@@ -5,7 +5,7 @@ from django.conf import settings
 from django.http import HttpRequest
 
 #FIXE(AR): Tout ce qui concerne Shipping a commenter, fonctionnalité en attente / from shipping.calculator import get_book_shipping_cost
-from rootapp.store.models import Product
+from rootapp.store.models import StoreProduct
 
 
 class Cart:
@@ -22,7 +22,7 @@ class Cart:
 
     def add(
         self,
-        product: Product,
+        product: StoreProduct,
         quantity: int = 1,
     ) -> None:
         """Add a product to the cart or update its quantity."""
@@ -48,7 +48,7 @@ class Cart:
         self.session.modified = True
 
 
-    def remove(self, product: Product) -> None:
+    def remove(self, product: StoreProduct) -> None:
         """Remove a product from the cart."""
         product_id = str(product.id)  
 
@@ -57,22 +57,22 @@ class Cart:
 
             self.save()
 
-    def get_cart_products(self) -> list[Product]:
+    def get_products_in_cart(self) -> list[StoreProduct]:
         """Retourne la liste des objets Product présents dans le panier."""
         product_ids = self.cart.keys()
-        return Product.objects.filter(id__in=product_ids)
+        return StoreProduct.objects.filter(id__in=product_ids)
 
-    def get_total_cost(self) -> Decimal:
+    def get_cart_total(self) -> Decimal:
         """Retourne le coût total du panier (sous-total + éventuels frais)."""
         int_sum = sum(
             [
-                self.get_subtotal_cost(),
+                self.get_cart_subtotal(),
                 #self.get_shipping_cost(),
             ],
         )
         return Decimal(int_sum).quantize(Decimal("0.01"))
 
-    def get_subtotal_cost(self) -> Decimal:
+    def get_cart_subtotal(self) -> Decimal:
         totals = [
             Decimal(item["price"]) * item["quantity"] for item in self.cart.values()
         ]
@@ -94,7 +94,7 @@ class Cart:
 
     def __iter__(self) -> Generator:
         """Get cart products from the database."""
-        products = self.get_cart_products()
+        products = self.get_products_in_cart()
         cart_copy = {}
 
         for product in products:

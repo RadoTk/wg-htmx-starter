@@ -38,13 +38,13 @@ class OrderStatus(models.Model):
     def __str__(self):
         return self.name
     
-    def colored_name(self):
+    def get_colored_name_display(self):
         return format_html(
             '<span style="color: {};">●</span> {}',
             self.color,
             self.name
         )
-    colored_name.short_description = "Statut"
+    get_colored_name_display.short_description = "Statut"
 
 class BaseOrder(models.Model):
     shopper_first_name = models.CharField(max_length=255)
@@ -67,6 +67,17 @@ class Order(BaseOrder, ClusterableModel):
         verbose_name="Statut de la commande"
     )
     
+    PAYMENT_STATUS_CHOICES = [
+        ('unpaid', 'Non payé'),
+        ('paid', 'Payé'),
+    ]
+    payment_status = models.CharField(
+        max_length=10,
+        choices=PAYMENT_STATUS_CHOICES,
+        default='unpaid',
+        verbose_name="Statut de paiement"
+    )
+
     def __str__(self):
         status_name = self.status.name if self.status else "Nouvelle"
         return f"Commande {self.id} - {status_name}"
@@ -107,27 +118,27 @@ class Order(BaseOrder, ClusterableModel):
     def shopper_full_name(self) -> str:
         return f"{self.shopper_first_name} {self.shopper_name}".strip()
 
-    def get_total_items_cost(self) -> Decimal:
+    def get_order_total(self) -> Decimal:
         total = sum(item.get_cost() for item in self.items.all())
         return total.quantize(Decimal("0.01"))
 
     # inspect product
-    def formatted_items_table(self):
+    def get_items_html_table(self):
         if not self.items.exists():
             return "Aucun produit dans cette commande."
 
         html = render_to_string("orders/includes/order_items_table.html", {"order": self})
         return mark_safe(html)
-    formatted_items_table.short_description = "Produits commandés"
+    get_items_html_table.short_description = "Produits commandés"
 
 
-    def get_view_items_link(self):
+    def get_admin_items_link(self):
         try:
             url = reverse("order:inspect", args=[self.pk])
         except Exception as e:
             return f"(Erreur de lien: {e})"
         return format_html('<a class="button button-small" href="{}">Voir produits</a>', url)
-    get_view_items_link.short_description = "Produits"
+    get_admin_items_link.short_description = "Produits"
 
 
 
@@ -142,6 +153,24 @@ class Order(BaseOrder, ClusterableModel):
             "cancelled": [],
         }
         return transitions.get(current_code, [])
+    
+
+    def get_colored_payment_status(self):
+        colors = {
+            'paid': 'green',
+            'unpaid': 'red',
+        }
+        color = colors.get(self.payment_status, 'grey')
+        label = dict(self.PAYMENT_STATUS_CHOICES).get(self.payment_status, 'Inconnu')
+        return format_html('<span style="color:{}; font-weight:bold;">● {}</span>', color, label)
+
+    get_colored_payment_status.short_description = "Statut paiement"
+
+
+    def mark_as_paid(self):
+        self.payment_status = 'paid'
+        self.save()
+
 
     def clean(self):
         if self.pk:

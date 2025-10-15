@@ -19,18 +19,19 @@ class OrderViewSet(ModelViewSet):
 
     inspect_view_enabled = True
     inspect_view_fields = [
-        "formatted_items_table",
+        "get_items_html_table",
     ]
 
     list_display = [
         "id", 
         "get_colored_status_display",  
+        "get_colored_payment_status",
         "shopper_full_name", 
         "shopper_email", 
         "shopper_address",
         "shopper_country", 
         "created_at", 
-        "get_view_items_link"
+        "get_admin_items_link"
     ]
     
     list_filter = ["status"]
@@ -46,7 +47,7 @@ def register_order_viewset():
 
 
 @hooks.register('construct_main_menu')
-def add_orders_notification_badge(request, menu_items):
+def display_order_notification_badge(request, menu_items):
     try:
         new_order_status = OrderStatus.objects.get(code='new', is_active=True)
         new_orders_count = Order.objects.filter(status=new_order_status).count()
