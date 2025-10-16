@@ -25,3 +25,9 @@ class OrdersNotificationAdminConsumer(AsyncWebsocketConsumer):
             'type': 'new_order',
             'message': event['message'],
         }))
+
+    async def send_payment_notification(self, event):
+        await self.send(text_data=json.dumps({
+            'type': 'payment',
+            'message': event['message'],
+        }))

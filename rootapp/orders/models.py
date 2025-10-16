@@ -8,6 +8,10 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.core.exceptions import ValidationError
 
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
+
+
 
 class Country(models.Model):
     name = models.CharField(max_length=255, unique=True)
@@ -167,9 +171,21 @@ class Order(BaseOrder, ClusterableModel):
     get_colored_payment_status.short_description = "Statut paiement"
 
 
+
     def mark_as_paid(self):
-        self.payment_status = 'paid'
-        self.save()
+        if self.payment_status != 'paid':
+            self.payment_status = 'paid'
+            self.save()
+
+            # ✅ Envoie notification ici
+            channel_layer = get_channel_layer()
+            async_to_sync(channel_layer.group_send)(
+                'orders_admin',
+                {
+                    'type': 'send_payment_notification',
+                    'message': f'💰 La commande #{self.pk} a été payée.',
+                }
+            )
 
 
     def clean(self):

@@ -5,7 +5,7 @@
     socket.onmessage = function (e) {
         const data = JSON.parse(e.data);
 
-        if (data.type === 'new_order') {
+        if (data.type === 'new_order' || data.type === 'payment') {
             showBanner(data.message);
         }
     };

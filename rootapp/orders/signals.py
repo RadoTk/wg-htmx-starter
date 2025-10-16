@@ -6,12 +6,14 @@ from channels.layers import get_channel_layer
 
 @receiver(post_save, sender=Order)
 def notify_new_order_via_websocket(sender, instance, created, **kwargs):
+    channel_layer = get_channel_layer()
+
     if created:
-        channel_layer = get_channel_layer()
         async_to_sync(channel_layer.group_send)(
             'orders_admin',
             {
                 'type': 'send_new_order',
-                'message': 'Nouvelle commande reçue ! Cliquez ici pour la charger.',
+                'message': '🆕 Nouvelle commande reçue ! Cliquez ici pour la charger.',
             }
         )
+    
