@@ -48,6 +48,10 @@ RUN set -ex \
 RUN mkdir /code/
 WORKDIR /code/
 ADD . /code/
+
+COPY ././docker-entrypoint.sh /code/docker-entrypoint.sh
+RUN chmod +x /code/docker-entrypoint.sh
+
 ENV PORT=8000
 EXPOSE 8000
 

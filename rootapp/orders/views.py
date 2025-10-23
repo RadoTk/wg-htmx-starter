@@ -66,7 +66,6 @@ def order_create(request: HttpRequest) -> HttpResponse:
                 }
             )
 
-
             return redirect(session.url, code=303)
 
     else:

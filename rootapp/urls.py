@@ -21,6 +21,7 @@ urlpatterns = [
     path("django-admin/", admin.site.urls),
     path("admin/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),
+    path("user/", include("rootapp.users.urls")),
     re_path(
         r"^images/([^/]*)/(\d*)/([^/]*)/[^/]*$",
         ServeView.as_view(),
