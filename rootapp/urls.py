@@ -6,9 +6,6 @@ from wagtail import urls as wagtail_urls
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.contrib.sitemaps.views import sitemap
 from wagtail.documents import urls as wagtaildocs_urls
-
-from rootapp.orders import urls as orders_urls
-
 from wagtail.images.views.serve import ServeView
 
 from rootapp.search import views as search_views
@@ -16,12 +13,9 @@ from rootapp.search import views as search_views
 from .api import api_router
 
 urlpatterns = [
-    path('cart/', include('rootapp.cart.urls', namespace='cart')),
-    path('orders/', include('rootapp.orders.urls', namespace='orders')),
     path("django-admin/", admin.site.urls),
     path("admin/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),
-    path("user/", include("rootapp.users.urls")),
     re_path(
         r"^images/([^/]*)/(\d*)/([^/]*)/[^/]*$",
         ServeView.as_view(),
@@ -31,7 +25,8 @@ urlpatterns = [
     path("sitemap.xml", sitemap),
     path("api/v2/", api_router.urls),
     path("__debug__/", include(debug_toolbar.urls)),
-
+    path('cart/', include('rootapp.cart.urls', namespace='cart')),
+    path('orders/', include('rootapp.orders.urls', namespace='orders')),
 ]
 
 
