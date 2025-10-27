@@ -4,6 +4,9 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from .forms import UserForm, UserProfileForm
 
+from django.contrib.auth import logout
+
+
 
 from django.contrib.auth.views import LoginView
 
@@ -37,3 +40,10 @@ def profile_edit(request):
         'profile_form': profile_form,
     }
     return render(request, 'users/profile_edit.html', context)
+
+
+def user_logout(request):
+    logout(request)
+    messages.success(request, "Vous avez été déconnecté avec succès.")
+    return redirect('users:login') 
+
