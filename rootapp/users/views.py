@@ -8,13 +8,13 @@ from .forms import UserForm, UserProfileForm
 from django.contrib.auth.views import LoginView
 
 class UserLoginView(LoginView):
-    template_name = 'users/login.html'  # Chemin vers ton template login.html
+    template_name = 'users/login.html' 
 
 
 @login_required
 def profile_edit(request):
     user = request.user
-    profile = user.profile  # grâce à related_name='profile'
+    profile = user.profile 
 
     if request.method == "POST":
         user_form = UserForm(request.POST, instance=user)
@@ -24,7 +24,8 @@ def profile_edit(request):
             user_form.save()
             profile_form.save()
             messages.success(request, "Votre profil a été mis à jour avec succès.")
-            return redirect('profile_edit')
+            return redirect('users:profile_edit')
+
         else:
             messages.error(request, "Veuillez corriger les erreurs ci-dessous.")
     else:
