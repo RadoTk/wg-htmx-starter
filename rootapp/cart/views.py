@@ -9,7 +9,6 @@ from .forms import CartAddProductForm
 
 
 def render_cart_summary(request, cart: Cart):
-    """Helper pour HTMX ou mini-panier."""
     store_index_page = StoreIndexPage.objects.first()
     html = render_to_string(
         "cart/_cart_summary.html",

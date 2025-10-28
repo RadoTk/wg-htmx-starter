@@ -14,18 +14,16 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 
-def add_items_to_order(
-        order: Order,
-        cart: Cart,
-) -> None:
+def add_items_to_order(order: Order, cart: Cart) -> None:
     for item in cart:
         OrderItem.objects.create(
             order=order,
-            product_title=item["product_title"],
-            product_id=item["product_id"],
+            product_title=getattr(item["product"], "title", "Produit inconnu"),
+            product_id=item["product"].id,
             price=item["price"],
             quantity=item["quantity"],
         )
+
 
 
 def order_create(request: HttpRequest) -> HttpResponse:

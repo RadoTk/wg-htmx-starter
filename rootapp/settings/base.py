@@ -305,5 +305,5 @@ STRIPE_PUBLISHABLE_KEY = os.getenv("STRIPE_PUBLISHABLE_KEY")
 STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET")
 
 
-LOGIN_URL = '/user/login/'  # URL de la page de connexion
-LOGIN_REDIRECT_URL = '/user/profile/edit/'  # Où rediriger après login
+LOGIN_URL = '/user/login/' 
+LOGIN_REDIRECT_URL = '/user/profile/edit/' 
