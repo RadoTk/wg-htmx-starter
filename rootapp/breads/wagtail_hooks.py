@@ -5,40 +5,58 @@ from wagtail.snippets.models import register_snippet
 from wagtail.snippets.views.snippets import SnippetViewSet, SnippetViewSetGroup
 
 from rootapp.base.filters import RevisionFilterSetMixin
-from rootapp.breads.models import BreadIngredient, BreadType, Country
+from rootapp.breads.models import ProductIngredient, ProductCategory, ProductOrigin
 
 
-class BreadIngredientFilterSet(RevisionFilterSetMixin, WagtailFilterSet):
+# -----------------------------------------------------------------------------
+# FILTERS
+# -----------------------------------------------------------------------------
+
+class ProductIngredientFilterSet(RevisionFilterSetMixin, WagtailFilterSet):
     class Meta:
-        model = BreadIngredient
+        model = ProductIngredient
         fields = {
             "live": ["exact"],
         }
 
 
-class BreadIngredientSnippetViewSet(SnippetViewSet):
-    model = BreadIngredient
-    ordering = ("name",)
-    search_fields = ("name",)
-    filterset_class = BreadIngredientFilterSet
-    inspect_view_enabled = True
-
-
-class BreadTypeFilterSet(RevisionFilterSetMixin, WagtailFilterSet):
+class ProductCategoryFilterSet(RevisionFilterSetMixin, WagtailFilterSet):
     class Meta:
-        model = BreadType
+        model = ProductCategory
         fields = []
 
 
-class BreadTypeSnippetViewSet(SnippetViewSet):
-    model = BreadType
+# -----------------------------------------------------------------------------
+# SNIPPET VIEWSETS
+# -----------------------------------------------------------------------------
+
+class ProductIngredientSnippetViewSet(SnippetViewSet):
+    """
+    Wagtail snippet admin view for ProductIngredient.
+    """
+    model = ProductIngredient
+    ordering = ("name",)
+    search_fields = ("name",)
+    filterset_class = ProductIngredientFilterSet
+    inspect_view_enabled = True
+
+
+class ProductCategorySnippetViewSet(SnippetViewSet):
+    """
+    Wagtail snippet admin view for ProductCategory.
+    """
+    model = ProductCategory
     ordering = ("title",)
     search_fields = ("title",)
-    filterset_class = BreadTypeFilterSet
+    filterset_class = ProductCategoryFilterSet
+    inspect_view_enabled = True
 
 
-class CountryModelViewSet(ModelViewSet):
-    model = Country
+class ProductOriginModelViewSet(ModelViewSet):
+    """
+    Wagtail model admin view for ProductOrigin.
+    """
+    model = ProductOrigin
     ordering = ("title",)
     search_fields = ("title",)
     icon = "globe"
@@ -49,24 +67,24 @@ class CountryModelViewSet(ModelViewSet):
     ]
 
 
-# We want to group several snippets together in the admin menu.
-# This is done by defining a SnippetViewSetGroup class that contains a list of
-# SnippetViewSet classes.
-# When using a SnippetViewSetGroup class to group several SnippetViewSet classes together,
-# you only need to register the SnippetViewSetGroup class with Wagtail.
-# No need to register the individual SnippetViewSet classes.
-#
-# See the documentation for SnippetViewSet for more details.
-# https://docs.wagtail.org/en/stable/reference/viewsets.html#snippetviewsetgroup
-class BreadMenuGroup(SnippetViewSetGroup):
-    menu_label = "Bread Categories"
-    menu_icon = "suitcase"  # change as required
-    menu_order = 200  # will put in 3rd place (000 being 1st, 100 2nd)
+# -----------------------------------------------------------------------------
+# SNIPPET GROUPING IN WAGTAIL ADMIN
+# -----------------------------------------------------------------------------
+
+class ProductDataGroup(SnippetViewSetGroup):
+    """
+    Group all product-related snippets in the Wagtail admin under one menu.
+    """
+    menu_label = "Product Data"
+    menu_icon = "package"  # can be changed to "tag", "folder-open-inverse", etc.
+    menu_order = 200  # controls order in sidebar
+
     items = (
-        BreadIngredientSnippetViewSet,
-        BreadTypeSnippetViewSet,
-        CountryModelViewSet,
+        ProductIngredientSnippetViewSet,
+        ProductCategorySnippetViewSet,
+        ProductOriginModelViewSet,
     )
 
 
-register_snippet(BreadMenuGroup)
+# Register the snippet group (registering individual snippets is not needed)
+register_snippet(ProductDataGroup)

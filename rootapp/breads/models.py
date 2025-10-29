@@ -12,39 +12,34 @@ from wagtail.search import index
 from rootapp.base.blocks import BaseStreamBlock
 
 
-class Country(models.Model):
+# -----------------------------------------------------------------------------
+# PRODUCT DATA MODELS
+# -----------------------------------------------------------------------------
+
+class ProductOrigin(models.Model):
     """
-    A Django model to store set of countries of origin.
-    It is made accessible in the Wagtail admin interface through the CountrySnippetViewSet
-    class in wagtail_hooks.py. This allows us to customize the admin interface for this snippet.
-    In the BreadPage model you'll see we use a ForeignKey to create the relationship between
-    Country and BreadPage. This allows a single relationship (e.g only one
-    Country can be added) that is one-way (e.g. Country will have no way to
-    access related BreadPage objects).
+    Represents a country or region of origin for a product.
+    Used as a snippet in Wagtail admin via ProductOriginSnippetViewSet.
     """
 
     title = models.CharField(max_length=100)
 
-    api_fields = [
-        APIField("title"),
-    ]
+    panels = [FieldPanel("title")]
+
+    api_fields = [APIField("title")]
 
     def __str__(self):
         return self.title
 
     class Meta:
-        verbose_name = "country of origin"
-        verbose_name_plural = "countries of origin"
+        verbose_name = "product origin"
+        verbose_name_plural = "product origins"
 
 
-class BreadIngredient(DraftStateMixin, RevisionMixin, models.Model):
+class ProductIngredient(DraftStateMixin, RevisionMixin, models.Model):
     """
-    A Django model to store a single ingredient.
-    It is made accessible in the Wagtail admin interface through the BreadIngredientSnippetViewSet
-    class in wagtail_hooks.py. This allows us to customize the admin interface for this snippet.
-    We use a piece of functionality available to Wagtail called the ParentalManyToManyField on the BreadPage
-    model to display this. The Wagtail Docs give a slightly more detailed example
-    https://docs.wagtail.org/en/stable/getting_started/tutorial.html#categories
+    Represents a single ingredient used in products.
+    Managed as a snippet in the Wagtail admin.
     """
 
     name = models.CharField(max_length=255)
@@ -53,35 +48,26 @@ class BreadIngredient(DraftStateMixin, RevisionMixin, models.Model):
         "wagtailcore.Revision",
         content_type_field="base_content_type",
         object_id_field="object_id",
-        related_query_name="bread_ingredient",
+        related_query_name="product_ingredient",
         for_concrete_model=False,
     )
 
-    panels = [
-        FieldPanel("name"),
-    ]
+    panels = [FieldPanel("name")]
 
-    api_fields = [
-        APIField("name"),
-    ]
+    api_fields = [APIField("name")]
 
     def __str__(self):
         return self.name
 
     class Meta:
-        verbose_name = "bread ingredient"
-        verbose_name_plural = "bread ingredients"
+        verbose_name = "product ingredient"
+        verbose_name_plural = "product ingredients"
 
 
-class BreadType(RevisionMixin, models.Model):
+class ProductCategory(RevisionMixin, models.Model):
     """
-    A Django model to define the bread type
-    It is made accessible in the Wagtail admin interface through the BreadTypeSnippetViewSet
-    class in wagtail_hooks.py. This allows us to customize the admin interface for this snippet.
-    In the BreadPage model you'll see we use a ForeignKey
-    to create the relationship between BreadType and BreadPage. This allows a
-    single relationship (e.g only one BreadType can be added) that is one-way
-    (e.g. BreadType will have no way to access related BreadPage objects)
+    Represents a category or type of product.
+    Managed as a snippet in the Wagtail admin.
     """
 
     title = models.CharField(max_length=255)
@@ -90,115 +76,132 @@ class BreadType(RevisionMixin, models.Model):
         "wagtailcore.Revision",
         content_type_field="base_content_type",
         object_id_field="object_id",
-        related_query_name="bread_type",
+        related_query_name="product_category",
         for_concrete_model=False,
     )
 
-    panels = [
-        FieldPanel("title"),
-    ]
+    panels = [FieldPanel("title")]
 
-    api_fields = [
-        APIField("title"),
-    ]
+    api_fields = [APIField("title")]
 
     def __str__(self):
         return self.title
 
     class Meta:
-        verbose_name = "bread type"
-        verbose_name_plural = "bread types"
+        verbose_name = "product category"
+        verbose_name_plural = "product categories"
 
 
-class BreadPage(Page):
+# -----------------------------------------------------------------------------
+# PRODUCT ARTICLE PAGES
+# -----------------------------------------------------------------------------
+
+class ProductArticlePage(Page):
     """
-    Detail view for a specific bread
+    Represents an editorial or detailed content page about a product.
+    Similar to a blog post or product story.
     """
 
-    introduction = models.TextField(help_text="Text to describe the page", blank=True)
+    introduction = models.TextField(
+        blank=True,
+        help_text="Optional short description of this article or product page."
+    )
+
     image = models.ForeignKey(
         "wagtailimages.Image",
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name="+",
-        help_text="Landscape mode only; horizontal width between 1000px and 3000px.",
-    )
-    body = StreamField(
-        BaseStreamBlock(), verbose_name="Page body", blank=True, use_json_field=True
-    )
-    origin = models.ForeignKey(
-        Country,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
+        help_text="Landscape image only (1000px–3000px width)."
     )
 
-    # We include related_name='+' to avoid name collisions on relationships.
-    # e.g. there are two FooPage models in two different apps,
-    # and they both have a FK to bread_type, they'll both try to create a
-    # relationship called `foopage_objects` that will throw a valueError on
-    # collision.
-    bread_type = models.ForeignKey(
-        "breads.BreadType",
+    body = StreamField(
+        BaseStreamBlock(),
+        verbose_name="Page body",
+        blank=True,
+        use_json_field=True,
+    )
+
+    origin = models.ForeignKey(
+        "ProductOrigin",
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name="+",
+        verbose_name="Product origin",
     )
-    ingredients = ParentalManyToManyField("BreadIngredient", blank=True)
 
+    category = models.ForeignKey(
+        "ProductCategory",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        verbose_name="Product category",
+    )
+
+    ingredients = ParentalManyToManyField(
+        "ProductIngredient",
+        blank=True,
+        verbose_name="Product ingredients",
+    )
+
+    # Wagtail admin panels
     content_panels = Page.content_panels + [
         FieldPanel("introduction"),
         FieldPanel("image"),
         FieldPanel("body"),
-        FieldPanel("origin"),
-        FieldPanel("bread_type"),
         MultiFieldPanel(
             [
-                FieldPanel(
-                    "ingredients",
-                    widget=forms.CheckboxSelectMultiple,
-                ),
+                FieldPanel("origin"),
+                FieldPanel("category"),
+                FieldPanel("ingredients", widget=forms.CheckboxSelectMultiple),
             ],
-            heading="Additional Metadata",
+            heading="Product details",
             classname="collapsed",
         ),
     ]
 
     search_fields = Page.search_fields + [
+        index.SearchField("introduction"),
         index.SearchField("body"),
     ]
 
-    parent_page_types = ["BreadsIndexPage"]
+    parent_page_types = ["ProductArticlesIndexPage"]
+    subpage_types = []
 
     api_fields = [
         APIField("introduction"),
         APIField("image"),
         APIField("body"),
         APIField("origin"),
-        APIField("bread_type"),
+        APIField("category"),
         APIField("ingredients"),
     ]
 
+    class Meta:
+        verbose_name = "product article"
+        verbose_name_plural = "product articles"
 
-class BreadsIndexPage(Page):
+
+class ProductArticlesIndexPage(Page):
     """
-    Index page for breads.
-
-    This is more complex than other index pages on the bakery demo site as we've
-    included pagination. We've separated the different aspects of the index page
-    to be discrete functions to make it easier to follow
+    An index page listing ProductArticlePage entries with pagination.
     """
 
-    introduction = models.TextField(help_text="Text to describe the page", blank=True)
+    introduction = models.TextField(
+        blank=True,
+        help_text="Text displayed at the top of the product articles index page."
+    )
+
     image = models.ForeignKey(
         "wagtailimages.Image",
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name="+",
-        help_text="Landscape mode only; horizontal width between 1000px and 3000px.",
+        help_text="Optional header image for the index page.",
     )
 
     content_panels = Page.content_panels + [
@@ -206,49 +209,50 @@ class BreadsIndexPage(Page):
         FieldPanel("image"),
     ]
 
-    # Can only have BreadPage children
-    subpage_types = ["BreadPage"]
+    subpage_types = ["ProductArticlePage"]
 
     api_fields = [
         APIField("introduction"),
         APIField("image"),
     ]
 
-    # Returns a queryset of BreadPage objects that are live, that are direct
-    # descendants of this index page with most recent first
-    def get_breads(self):
-        return (
-            BreadPage.objects.live().descendant_of(self).order_by("-first_published_at")
-        )
+    class Meta:
+        verbose_name = "product articles index"
+        verbose_name_plural = "product articles indexes"
 
-    # Allows child objects (e.g. BreadPage objects) to be accessible via the
-    # template. We use this on the HomePage to display child items of featured
-    # content
+    # -------------------------------------------------------------------------
+    # Query methods
+    # -------------------------------------------------------------------------
+
+    def get_articles(self):
+        """Return live ProductArticlePages under this index, newest first."""
+        return ProductArticlePage.objects.live().descendant_of(self).order_by("-first_published_at")
+
     def children(self):
+        """Return all live children for Wagtail templates."""
         return self.get_children().specific().live()
 
-    # Pagination for the index page. We use the `django.core.paginator` as any
-    # standard Django app would, but the difference here being we have it as a
-    # method on the model rather than within a view function
-    def paginate(self, request, *args):
-        page = request.GET.get("page")
-        paginator = Paginator(self.get_breads(), 12)
+    # -------------------------------------------------------------------------
+    # Pagination
+    # -------------------------------------------------------------------------
+
+    def paginate(self, request, articles, per_page=12):
+        page_number = request.GET.get("page")
+        paginator = Paginator(articles, per_page)
         try:
-            pages = paginator.page(page)
+            pages = paginator.page(page_number)
         except PageNotAnInteger:
             pages = paginator.page(1)
         except EmptyPage:
             pages = paginator.page(paginator.num_pages)
         return pages
 
-    # Returns the above to the get_context method that is used to populate the
-    # template
+    # -------------------------------------------------------------------------
+    # Context
+    # -------------------------------------------------------------------------
+
     def get_context(self, request):
-        context = super(BreadsIndexPage, self).get_context(request)
-
-        # BreadPage objects (get_breads) are passed through pagination
-        breads = self.paginate(request, self.get_breads())
-
-        context["breads"] = breads
-
+        context = super().get_context(request)
+        articles = self.paginate(request, self.get_articles())
+        context["articles"] = articles
         return context

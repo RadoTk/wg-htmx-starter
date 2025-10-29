@@ -5,7 +5,7 @@ from wagtail.contrib.search_promotions.models import Query
 from wagtail.models import Page
 
 from rootapp.blog.models import BlogPage
-from rootapp.breads.models import BreadPage
+from rootapp.breads.models import ProductArticlePage
 from rootapp.locations.models import LocationPage
 
 
@@ -25,7 +25,7 @@ def search(request):
             blog_results = BlogPage.objects.live().search(search_query)
             blog_page_ids = [p.page_ptr.id for p in blog_results]
 
-            bread_results = BreadPage.objects.live().search(search_query)
+            bread_results = ProductArticlePage.objects.live().search(search_query)
             bread_page_ids = [p.page_ptr.id for p in bread_results]
 
             location_results = LocationPage.objects.live().search(search_query)

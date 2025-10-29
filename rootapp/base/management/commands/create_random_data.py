@@ -12,11 +12,11 @@ from willow.image import Image as WillowImage
 from rootapp.base.models import FooterText, HomePage, Person, StandardPage
 from rootapp.blog.models import BlogIndexPage, BlogPage
 from rootapp.breads.models import (
-    BreadIngredient,
-    BreadPage,
-    BreadsIndexPage,
-    BreadType,
-    Country,
+    ProductIngredient,
+    ProductArticlePage,
+    ProductArticlesIndexPage,
+    ProductCategory,
+    ProductOrigin,
 )
 from rootapp.locations.models import LocationPage, LocationsIndexPage
 
@@ -54,17 +54,17 @@ class Command(BaseCommand):
 
     def create_pages(self, page_count):
         self.stdout.write("Creating bread pages...")
-        breads_index = BreadsIndexPage.objects.live().first()
+        breads_index = ProductArticlesIndexPage.objects.live().first()
         for _ in range(page_count):
             title = self.make_title()
             breads_index.add_child(
-                instance=BreadPage(
+                instance=ProductArticlePage(
                     title=title,
                     slug=slugify(title),
                     introduction=lorem_ipsum.paragraph(),
-                    bread_type=self.get_random_model(BreadType),
+                    bread_type=self.get_random_model(ProductCategory),
                     body=self.fake_stream_field(),
-                    origin=self.get_random_model(Country),
+                    origin=self.get_random_model(ProductOrigin),
                     image=self.get_random_model(Image),
                 )
             )
@@ -128,15 +128,15 @@ class Command(BaseCommand):
     def create_snippets(self, snippet_count):
         self.stdout.write("Creating countries...")
         for _ in range(snippet_count):
-            Country.objects.create(title=self.make_title())
+            ProductOrigin.objects.create(title=self.make_title())
 
         self.stdout.write("Creating bread ingredients...")
         for _ in range(snippet_count):
-            BreadIngredient.objects.create(name=self.make_title())
+            ProductIngredient.objects.create(name=self.make_title())
 
         self.stdout.write("Creating bread types...")
         for _ in range(snippet_count):
-            BreadType.objects.create(title=self.make_title())
+            ProductCategory.objects.create(title=self.make_title())
 
         self.stdout.write("Creating people...")
         for _ in range(snippet_count):

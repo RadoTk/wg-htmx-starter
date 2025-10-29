@@ -1,10 +1,12 @@
+from asyncio.log import logger
+from django.db.models import Sum, F
 from decimal import Decimal
 from collections.abc import Generator
 from django.conf import settings
 from django.http import HttpRequest
+from django.shortcuts import redirect
 from rootapp.store.models import StoreProduct
 from .models import Cart as CartModel, CartItem
-from django.db.models import Sum, F
 
 
 class Cart:
@@ -52,8 +54,9 @@ class Cart:
                     item.save()
             except Exception as e:
                 # En cas d'erreur lors de l'ajout ou mise à jour dans la base de données
-                print(f"Erreur lors de l'ajout du produit dans le panier DB: {e}")
-                raise ValueError("Erreur lors de la mise à jour du panier en base de données.")
+                logger.error(f"Erreur lors de l'ajout du produit dans le panier: {e}")
+                # Redirection ou retour d'information à l'utilisateur
+                return redirect("/")
         else:
             # Panier en session
             try:
@@ -81,8 +84,8 @@ class Cart:
                 self.save_session()
             except Exception as e:
                 # Gestion des erreurs en session
-                print(f"Erreur lors de l'ajout du produit dans le panier de session: {e}")
-                raise ValueError("Erreur lors de l'ajout du produit au panier de session.")
+                logger.error(f"Erreur lors de l'ajout du produit dans le panier de session: {e}")
+                return redirect("/")
 
     def remove(self, product: StoreProduct) -> None:
         """
@@ -98,8 +101,8 @@ class Cart:
                 self.save_session()
         except Exception as e:
             # Gestion des erreurs de suppression
-            print(f"Erreur lors de la suppression du produit: {e}")
-            raise ValueError("Erreur lors de la suppression du produit du panier.")
+            logger.error(f"Erreur lors de la suppression du produit: {e}")
+            return redirect("/")
 
     def clear(self) -> None:
         """
@@ -112,8 +115,8 @@ class Cart:
             self.clear_session()
         except Exception as e:
             # Gestion des erreurs de vidage du panier
-            print(f"Erreur lors du vidage du panier: {e}")
-            raise ValueError("Erreur lors du vidage du panier.")
+            logger.error(f"Erreur lors du vidage du panier: {e}")
+            return redirect("/")
 
     def merge_session_cart(self) -> None:
         """
@@ -130,8 +133,8 @@ class Cart:
             self.clear_session()
         except Exception as e:
             # Gestion des erreurs de fusion
-            print(f"Erreur lors de la fusion du panier de session: {e}")
-            raise ValueError("Erreur lors de la fusion du panier de session avec la base de données.")
+            logger.error(f"Erreur lors de la fusion du panier de session: {e}")
+            return redirect("/")
 
     def save_session(self) -> None:
         """
@@ -143,8 +146,8 @@ class Cart:
             self.session.modified = True
         except Exception as e:
             # Gestion des erreurs de sauvegarde de la session
-            print(f"Erreur lors de la sauvegarde du panier en session: {e}")
-            raise ValueError("Erreur lors de la sauvegarde du panier dans la session.")
+            logger.error(f"Erreur lors de la sauvegarde du panier en session: {e}")
+            return redirect("/")
 
     def clear_session(self) -> None:
         """
@@ -156,8 +159,8 @@ class Cart:
             self.save_session()
         except Exception as e:
             # Gestion des erreurs de réinitialisation du panier de session
-            print(f"Erreur lors du vidage du panier en session: {e}")
-            raise ValueError("Erreur lors du vidage du panier en session.")
+            logger.error(f"Erreur lors du vidage du panier en session: {e}")
+            return redirect("/")
 
     def __iter__(self) -> Generator:
         """
@@ -189,8 +192,8 @@ class Cart:
                         }
         except Exception as e:
             # Gestion des erreurs d'itération
-            print(f"Erreur lors de l'itération des articles du panier: {e}")
-            raise ValueError("Erreur lors de l'itération sur les articles du panier.")
+            logger.error(f"Erreur lors de l'itération des articles du panier: {e}")
+            return redirect("/")
 
     def __len__(self) -> int:
         """
@@ -205,8 +208,8 @@ class Cart:
             ) or 0
         except Exception as e:
             # Gestion des erreurs de calcul du nombre d'articles
-            print(f"Erreur lors du calcul du nombre total d'articles: {e}")
-            raise ValueError("Erreur lors du calcul du nombre total d'articles.")
+            logger.error(f"Erreur lors du calcul du nombre total d'articles: {e}")
+            return redirect("/")
 
     def get_cart_subtotal(self) -> Decimal:
         """
@@ -226,8 +229,8 @@ class Cart:
                 ).quantize(Decimal("0.01"))
         except Exception as e:
             # Gestion des erreurs de calcul du sous-total
-            print(f"Erreur lors du calcul du sous-total: {e}")
-            raise ValueError("Erreur lors du calcul du sous-total du panier.")
+            logger.error(f"Erreur lors du calcul du sous-total: {e}")
+            return redirect("/")
 
     def get_cart_total(self) -> Decimal:
         """

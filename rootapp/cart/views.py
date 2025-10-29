@@ -24,8 +24,8 @@ def cart_add(request, product_id):
     product = get_object_or_404(StoreProduct, id=product_id)
     form = CartAddProductForm(request.POST)
     if form.is_valid():
-        qty = form.cleaned_data["quantity"]
-        cart.add(product, qty)
+        quantity = form.cleaned_data["quantity"]
+        cart.add(product, quantity)
 
     if request.headers.get("Hx-Request"):
         return render_cart_summary(request, cart)
@@ -51,11 +51,11 @@ def cart_update(request, product_id):
     product = get_object_or_404(StoreProduct, id=product_id)
     form = CartAddProductForm(request.POST)
     if form.is_valid():
-        qty = form.cleaned_data["quantity"]
-        if qty <= 0:
+        quantity = form.cleaned_data["quantity"]
+        if quantity <= 0:
             cart.remove(product)
         else:
-            cart.add(product, qty, replace_quantity=True)
+            cart.add(product, quantity, replace_quantity=True)
 
     if request.headers.get("Hx-Request"):
         return render_cart_summary(request, cart)
