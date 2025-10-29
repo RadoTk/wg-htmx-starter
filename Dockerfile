@@ -60,7 +60,9 @@ ENV PORT=8000
 EXPOSE 8000
 ENV DJANGO_SETTINGS_MODULE=rootapp.settings.production DJANGO_DEBUG=off
 
-# 7️⃣ Collecter les fichiers statiques à l'avance (facultatif, utile en production)
+# 7️⃣ Collecter les fichiers statiques à l'avance (facultatif, utile en production
+WORKDIR /code
+ENV DJANGO_SETTINGS_MODULE=rootapp.settings.production
 RUN DATABASE_URL=postgres://none REDIS_URL=none python manage.py collectstatic --noinput
 
 # 8️⃣ Préparer les dossiers pour les fichiers médias

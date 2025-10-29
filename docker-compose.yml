@@ -30,15 +30,19 @@ services:
       REDIS_URL: redis://redis
       DJANGO_SETTINGS_MODULE: ${DJANGO_SETTINGS_MODULE}
     volumes:
-      - ./rootapp:/code/rootapp
+      - .:/code                     # monte tout ton projet
+      - static_volume:/code/rootapp/collect_static
+      - media_volume:/code/rootapp/media
     ports:
-      - '8000:8000'
+      - "8000:8000"
     depends_on:
       - db
       - redis
-    links:
-      - db:db
-      - redis:redis
+    restart: unless-stopped
+
 
 volumes:
   postgres_data:
+  static_volume:
+  media_volume:
+
