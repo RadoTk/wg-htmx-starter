@@ -152,13 +152,25 @@ WSGI_APPLICATION = "rootapp.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/stable/ref/settings/#databases
 
-if "DATABASE_URL" in os.environ:
-    DATABASES = {"default": dj_database_url.config(conn_max_age=500)}
+
+# Si la variable d'environnement SQL_ENGINE est définie, alors on utilise PostgreSQL.
+if os.getenv("SQL_ENGINE") == "django.db.backends.postgresql_psycopg2":
+    DATABASES = {
+        "default": {
+            "ENGINE": os.getenv("SQL_ENGINE"),  # django.db.backends.postgresql_psycopg2
+            "NAME": os.getenv("SQL_DATABASE"),  # Nom de la base de données
+            "USER": os.getenv("SQL_USER"),      # Utilisateur de la base
+            "PASSWORD": os.getenv("SQL_PASSWORD"),  # Mot de passe
+            "HOST": os.getenv("SQL_HOST"),      # hôte de la base (par défaut 'localhost' ou 'db' si dans un container Docker)
+            "PORT": os.getenv("SQL_PORT"),      # Port de la base (par défaut 5432 pour PostgreSQL)
+        }
+    }
 else:
+    # Si aucune base PostgreSQL n'est configurée, on utilise SQLite en développement
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
-            "NAME": os.path.join(BASE_DIR, "rootappdb"),
+            "NAME": os.path.join(BASE_DIR, "rootappdb"),  # Utilisation d'une base SQLite pour le développement local
         }
     }
 

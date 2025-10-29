@@ -58,6 +58,8 @@ venv.bak/
 .env
 .env.local
 .env.*.local
+.env.dev
+.env.dev.db
 
 # Django
 *.log
