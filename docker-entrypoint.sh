@@ -1,6 +1,9 @@
 #!/bin/sh
 set -e
 
+chmod +x /app/manage.py
+chmod +x /app/entrypoint.sh
+
 # Vérifier que DATABASE_URL est défini
 if [ -z "$DATABASE_URL" ]; then
     echo "ERROR: DATABASE_URL is not set. Please define the database URL." >&2
