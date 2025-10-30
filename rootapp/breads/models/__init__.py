@@ -1,0 +1,5 @@
+from .product_origin import ProductOrigin
+from .product_ingredient import ProductIngredient
+from .product_category import ProductCategory
+from .product_article_page import ProductArticlePage
+from .product_articles_index_page import ProductArticlesIndexPage
