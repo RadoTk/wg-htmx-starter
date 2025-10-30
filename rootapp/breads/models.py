@@ -147,7 +147,6 @@ class ProductArticlePage(Page):
         verbose_name="Product ingredients",
     )
 
-    # Wagtail admin panels
     content_panels = Page.content_panels + [
         FieldPanel("introduction"),
         FieldPanel("image"),

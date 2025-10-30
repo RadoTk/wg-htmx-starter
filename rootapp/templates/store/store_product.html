@@ -43,6 +43,21 @@
                                     {% include "store/add_to_cart.html" with product=page %}
                                 </div>
                             </div>
+                            {% if page.linked_objects.all %}
+                              <div class="mt-5">
+                                <h4 class="mb-3">Article</h4>
+                                <ul class="list-unstyled">
+                                  {% for link in page.linked_objects.all %}
+                                    <li class="mb-2">
+                                      🔗 <a href="{{ link.url }}" target="_blank" rel="noopener" class="text-decoration-none text-primary">
+                                        {{ link.title }}
+                                      </a>
+                                    </li>
+                                  {% endfor %}
+                                </ul>
+                              </div>
+                            {% endif %}
+
                         </div>
                     </div>
                 </div>

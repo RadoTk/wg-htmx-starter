@@ -2,11 +2,17 @@ from django.db import models
 
 from django.http import HttpRequest
 
-from wagtail.admin.panels import FieldPanel, MultiFieldPanel
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel, InlinePanel
 from wagtail.fields import RichTextField
 from wagtail.models import Page
 
 from rootapp.cart.forms import CartAddProductForm
+
+
+from rootapp.page_links.models import GenericPageLink
+from django.contrib.contenttypes.fields import GenericRelation
+
+
 
 
 class StoreIndexPage(Page):
@@ -44,6 +50,11 @@ class StoreProductIndexPage(Page):
 
 
 
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel, InlinePanel
+from wagtail.models import Page
+from wagtail.fields import RichTextField
+from rootapp.cart.forms import CartAddProductForm
+
 class StoreProduct(Page):
     image = models.ForeignKey(
         "wagtailimages.Image",
@@ -58,17 +69,19 @@ class StoreProduct(Page):
     is_featured = models.BooleanField(default=False)
 
     parent_page_types = ["store.StoreProductIndexPage"]
-    subpage_types: list[str] = []
+    subpage_types = []
 
     content_panels = Page.content_panels + [
-    FieldPanel("description", classname="full"),
-    MultiFieldPanel([
-        FieldPanel("price_usd"),
-        FieldPanel("is_available"),
-        FieldPanel("is_featured"),
-    ], heading="Informations produit"),
-    FieldPanel("image"),
-]
+        FieldPanel("description", classname="full"),
+        MultiFieldPanel([
+            FieldPanel("price_usd"),
+            FieldPanel("is_available"),
+            FieldPanel("is_featured"),
+        ], heading="Informations produit"),
+        FieldPanel("image"),
+        InlinePanel("linked_objects", label="Liens vers d'autres pages"),
+    ]
+
 
 
     def get_context(

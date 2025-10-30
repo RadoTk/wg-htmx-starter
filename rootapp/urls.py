@@ -28,6 +28,7 @@ urlpatterns = [
     path('cart/', include('rootapp.cart.urls', namespace='cart')),
     path('orders/', include('rootapp.orders.urls', namespace='orders')),
     path('user/', include('rootapp.users.urls', namespace='users')),
+    path('page_links/', include('rootapp.page_links.urls', namespace='page_links')),
 ]
 
 

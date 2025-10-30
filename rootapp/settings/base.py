@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     "rootapp.cart",
     "rootapp.orders",
     "rootapp.users",
+    "rootapp.page_links",
     # htmx
     "django_htmx",
 
