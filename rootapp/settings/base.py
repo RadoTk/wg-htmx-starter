@@ -171,7 +171,7 @@ else:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
-            "NAME": os.path.join(BASE_DIR, "rootappdb"),  # Utilisation d'une base SQLite pour le développement local
+            "NAME": os.path.join(BASE_DIR, "db_test_sqlite3"),  # Utilisation d'une base SQLite pour le développement local
         }
     }
 
@@ -310,8 +310,7 @@ CHANNEL_LAYERS = {
 
 
 
-DEBUG = os.getenv("DEBUG", "False") == "True"
-
+DEBUG = True
 
 STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
 STRIPE_PUBLISHABLE_KEY = os.getenv("STRIPE_PUBLISHABLE_KEY")

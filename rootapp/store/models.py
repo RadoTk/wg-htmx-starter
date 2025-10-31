@@ -13,8 +13,6 @@ from rootapp.page_links.models import GenericPageLink
 from django.contrib.contenttypes.fields import GenericRelation
 
 
-
-
 class StoreIndexPage(Page):
     intro = RichTextField(blank=True)
 
@@ -47,13 +45,6 @@ class StoreProductIndexPage(Page):
         context = super().get_context(request)
         context["products"] = self.get_children().type(StoreProduct).live()
         return context
-
-
-
-from wagtail.admin.panels import FieldPanel, MultiFieldPanel, InlinePanel
-from wagtail.models import Page
-from wagtail.fields import RichTextField
-from rootapp.cart.forms import CartAddProductForm
 
 class StoreProduct(Page):
     image = models.ForeignKey(
