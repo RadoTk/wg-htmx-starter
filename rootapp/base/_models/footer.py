@@ -1,9 +1,18 @@
-from django.contrib.contenttypes.fields import GenericRelation
-from django.db import models
 from wagtail.fields import RichTextField
-from wagtail.admin.panels import FieldPanel, PublishingPanel
+from django.db import models
+from wagtail.models import (
+    DraftStateMixin,
+    PreviewableMixin,
+    RevisionMixin,
+    TranslatableMixin,
+)
+from django.contrib.contenttypes.fields import GenericRelation
+from wagtail.admin.panels import (
+    FieldPanel,
+    PublishingPanel,
+)
 from wagtail.api import APIField
-from wagtail.models import DraftStateMixin, PreviewableMixin, RevisionMixin, TranslatableMixin
+
 
 
 class FooterText(
@@ -13,6 +22,14 @@ class FooterText(
     TranslatableMixin,
     models.Model,
 ):
+    """
+    This provides editable text for the site footer. Again it is registered
+    using `register_snippet` as a function in wagtail_hooks.py to be grouped
+    together with the Person model inside the same main menu item. It is made
+    accessible on the template via a template tag defined in base/templatetags/
+    navigation_tags.py
+    """
+
     body = RichTextField()
 
     revisions = GenericRelation(
@@ -23,8 +40,14 @@ class FooterText(
         for_concrete_model=False,
     )
 
-    panels = [FieldPanel("body"), PublishingPanel()]
-    api_fields = [APIField("body")]
+    panels = [
+        FieldPanel("body"),
+        PublishingPanel(),
+    ]
+
+    api_fields = [
+        APIField("body"),
+    ]
 
     def __str__(self):
         return "Footer text"

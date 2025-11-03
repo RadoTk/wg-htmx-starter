@@ -171,7 +171,7 @@ else:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
-            "NAME": os.path.join(BASE_DIR, "db_test_sqlite3"),  # Utilisation d'une base SQLite pour le développement local
+            "NAME": os.path.join(BASE_DIR, "rootappdb"),  # Utilisation d'une base SQLite pour le développement local
         }
     }
 
