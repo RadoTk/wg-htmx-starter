@@ -2,10 +2,12 @@ from django.test import TestCase, RequestFactory
 from django.contrib.auth import get_user_model
 from wagtail.models import Page
 from rootapp.store.models import StoreProduct, StoreProductIndexPage
-from rootapp.cart.cart import Cart
 from rootapp.cart.models import CartItem
 from django.core.exceptions import ValidationError
 from decimal import Decimal
+from django.contrib.sessions.middleware import SessionMiddleware
+from rootapp.cart.cart import Cart, FakeProduct
+
 
 class FakeProduct:
     """Produit factice pour tester le panier sans Wagtail."""
@@ -113,11 +115,14 @@ class CartErrorTestCase(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
         self.request = self.factory.get("/")
-        self.request.session = {}
+        # Ajoute une session valide à la requête
+        middleware = SessionMiddleware()
+        middleware.process_request(self.request)
+        self.request.session.save()
         self.cart = Cart(self.request)
 
-        # Création d'un produit factice pour les tests
-        self.product = FakeProduct("Produit Test", Decimal("10.00"))
+        self.product = FakeProduct("Produit Test", price=10.00)
+
 
     def test_add_negative_quantity_raises(self):
         """Ajouter une quantité négative doit lever une ValueError"""

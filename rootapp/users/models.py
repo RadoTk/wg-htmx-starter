@@ -16,9 +16,11 @@ from django.shortcuts import render, redirect
 class UserProfile(models.Model):
     """
     Modèle représentant le profil utilisateur.
-    Ce modèle permet d'associer un profil personnalisé à chaque utilisateur, avec des informations comme l'adresse, le code postal, le pays, et le numéro de téléphone.
+    Ce modèle permet d'associer un profil personnalisé à chaque utilisateur, 
+    avec des informations comme l'adresse, le code postal, le pays, et le numéro de téléphone.
 
-    @why: Assurer qu'un utilisateur puisse avoir un profil distinct contenant des informations supplémentaires au-delà de celles du modèle User.
+    @why: Assurer qu'un utilisateur puisse avoir un profil distinct contenant des informations supplémentaires 
+    au-delà de celles du modèle User.
     @how: Chaque utilisateur pourra avoir un profil qui est relié à lui via une relation OneToOne.
     """
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile', help_text="L'utilisateur associé à ce profil")

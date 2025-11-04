@@ -30,7 +30,7 @@ services:
       REDIS_URL: redis://redis
       DJANGO_SETTINGS_MODULE: ${DJANGO_SETTINGS_MODULE}
     volumes:
-      - .:/code                     # monte tout ton projet
+      - .:/code                     
       - static_volume:/code/rootapp/collect_static
       - media_volume:/code/rootapp/media
     ports:

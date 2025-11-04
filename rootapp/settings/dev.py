@@ -9,7 +9,6 @@ WAGTAILADMIN_BASE_URL = "http://localhost:8000"
 
 MIDDLEWARE.insert(1, "whitenoise.middleware.WhiteNoiseMiddleware")
 
-
 ALLOWED_HOSTS = ["*"]
 
 try:
