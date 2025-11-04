@@ -231,6 +231,9 @@ class HomePage(Page):
 
     def __str__(self):
         return self.title
+    
+    # def get_template(self, request, *args, **kwargs):
+    #     return "orfarm/index-6.html"
 
 
 class GalleryPage(Page):
@@ -280,3 +283,9 @@ class GalleryPage(Page):
         APIField("collection"),
     ]
 
+class WishlistPage(Page):
+    def get_context(self, request, *args, **kwargs) -> dict:
+        context = super().get_context(request)
+        context["products"] = "StoreProduct.objects.all().order_by"
+        context["cart_add_product_form"] = "CartAddProductForm()"
+        return context

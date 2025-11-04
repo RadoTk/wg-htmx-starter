@@ -1,3 +1,8 @@
+{% extends "base.html" %}
+{% load wagtailimages_tags %}
+
+
+{% block content %}
 <!doctype html>
 <html class="no-js" lang="zxx">
    <head>
@@ -421,7 +426,8 @@
          <section class="slider-area tpslider-delay">
             <div class="swiper-container tp-slider6">
                <div class="swiper-wrapper">
-                  <div class="swiper-slide tpslider__bg6" data-background="assets/img/slider/slider-bg-9.jpg">
+                  <div class="swiper-slide tpslider__bg6" data-background="{% picture page.image format-{avif,webp,jpeg} fill-{800x650,1920x900} sizes='100vw' class='hero-image' alt='' %}"
+>
                      <div class="container">
                         <div class="row">
                            <div class="col-lg-12">
@@ -450,10 +456,12 @@
                                     <img src="assets/img/slider/slider-logo-2.png" alt="logo">
                                  </div>
                                  <div class="tpslider__five__contact">
-                                    <h3 class="tpslider__five__title mb-25">High Quality</h3>
-                                    <p>Our fresh Vietnamese vegetable rolls look taste even better.</p>
+                                    <h3 class="tpslider__five__title mb-25">{{page.title}}</h3>
+                                    <p>{{page.hero_text}}</p>
                                     <div class="tpslider__five__btn">
-                                       <a class="tp-btn" href="shop-3.html">Shop Now</a>
+                                       {% if page.hero_cta_link%}
+                                          <a class="tp-btn" href="shop-3.html">{{page.hero_cta}}</a>
+                                       {%endif%}
                                     </div>
                                  </div>
                               </div>
@@ -2920,3 +2928,4 @@
       <script src="assets/js/main.js"></script>
    </body>
 </html>
+{% endblock content %}
