@@ -15,6 +15,7 @@ from rootapp.base.blocks import BaseStreamBlock
 
 
 
+
 class StandardPage(Page):
     """
     A generic content page. On this demo site we use it for an about page but
@@ -289,3 +290,48 @@ class WishlistPage(Page):
         context["products"] = "StoreProduct.objects.all().order_by"
         context["cart_add_product_form"] = "CartAddProductForm()"
         return context
+
+
+
+
+class SimpleContentPage(Page):
+    """
+    A simple content page with a small image, a large title, a subtitle, and a paragraph.
+    """
+
+    # Small image field (for a small thumbnail or icon)
+    image = models.ForeignKey(
+        "wagtailimages.Image",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        help_text="A small image to represent the page.",
+    )
+
+    # Large title (main heading)
+    large_title = models.CharField(max_length=255, help_text="Main title for the page")
+
+    # Subtitle (smaller title)
+    subtitle = models.CharField(max_length=255, help_text="A subtitle or secondary title")
+
+    # Paragraph description
+    description = models.TextField(help_text="A description or content for the page", blank=True)
+
+    # Adding content panels with FieldPanel for the image (since ImageChooserPanel doesn't work)
+    content_panels = Page.content_panels + [
+        FieldPanel("image"),  # Here we use FieldPanel instead of ImageChooserPanel
+        FieldPanel("large_title"),
+        FieldPanel("subtitle"),
+        FieldPanel("description"),
+    ]
+
+    api_fields = [
+        APIField("image"),
+        APIField("large_title"),
+        APIField("subtitle"),
+        APIField("description"),
+    ]
+
+    def __str__(self):
+        return self.large_title
