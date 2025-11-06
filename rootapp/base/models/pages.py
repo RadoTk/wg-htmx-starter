@@ -335,3 +335,6 @@ class SimpleContentPage(Page):
 
     def __str__(self):
         return self.large_title
+
+
+

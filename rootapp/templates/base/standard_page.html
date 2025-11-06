@@ -1,56 +1,23 @@
 {% extends "base.html" %}
 {% load wagtailimages_tags %}
+
 {% block content %}
-    <main>
-        <!-- about-area-strt -->
-        <section class="about-area pt-70">
-            <div class="container">
-                <div class="tpabout__border pb-35">
+    {% include "base/include/header-hero.html" %}
+
+    <div class="container bread-detail">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-7">
                     <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-6">
-                            <div class="tpabout__item text-center mb-40">
-                                <div class="tpabout__icon mb-15">
-                                    
-                                        <img src="{% image page.image max-320x200 %}" alt="{{ page.title }}">
-                                
-                                </div>
-                                <div class="tpabout__content">
-                                    <h4 class="tpabout__title">{{ page.title }}</h4>
-                                    <p>{{ page.introduction }}</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-6">
-                            <div class="tpabout__item text-center mb-40">
-                                <div class="tpabout__icon mb-15">
-                                    
-                                        <img src="{% image page.image max-320x200 %}" alt="{{ page.title }}">
-                                
-                                </div>
-                                <div class="tpabout__content">
-                                    <h4 class="tpabout__title">{{ page.title }}</h4>
-                                    <p>{{ page.introduction }}</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-6">
-                            <div class="tpabout__item text-center mb-40">
-                                <div class="tpabout__icon mb-15">
-                                    
-                                        <img src="{% image page.image max-320x200 %}" alt="{{ page.title }}">
-                                
-                                </div>
-                                <div class="tpabout__content">
-                                    <h4 class="tpabout__title">{{ page.title }}</h4>
-                                    <p>{{ page.introduction }}</p>
-                                </div>
-                            </div>
-                        </div>
-                        
+                        {% if page.introduction %}
+                            <p class="bread-detail__introduction">
+                                {{ page.introduction }}
+                            </p>
+                        {% endif %}
+                        {{ page.body }}
                     </div>
                 </div>
             </div>
-        </section>
-        <!-- about-area-end --> 
-    </main>
+        </div>
+    </div>
 {% endblock content %}

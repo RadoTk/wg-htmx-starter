@@ -1,83 +1,86 @@
-{% extends "base.html" %}
-{% load wagtailimages_tags %}
 
-{% block content %}
-<main>
-    <!-- about-area-strt -->
-    <section class="about-area pt-70">
-        <div class="container">
-            <div class="tpabout__border pb-35">
-                <div class="row">
-                    <div class="col-lg-3 col-md-3 col-sm-6">
-                        <div class="tpabout__item text-center mb-40">
-                            <div class="tpabout__icon mb-15">
-                                {% if page.image %}
-                                    {% image page.image max-100x100 as img %}
-                                    <img src="{{ img.url }}" alt="{{ page.title }}" />
-                                {% else %}
-                                    <img src="default-image.jpg" alt="Image par défaut" />
-                                {% endif %}
-                            </div>
-                            <div class="tpabout__content">
-                                <h4 class="tpabout__title">{{ page.title }}</h4>
-                                <p>{{ page.description }}</p>
-                            </div>
+{% load wagtailimages_tags %} {% block content %}
+<section class="about-area pt-70">
+    <div class="container">
+        <div class="tpabout__border pb-35">
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-6">
+                    <div class="tpabout__item text-center mb-40">
+                        <div class="tpabout__icon mb-15">
+                            {% if page.image %} {% image page.image max-165x165 as img %}
+                            <img src="{{ img.url }}" alt="{{ page.title }}" />
+                            {% else %}
+                            <img
+                                src="default-image.jpg"
+                                alt="Image par défaut"
+                            />
+                            {% endif %}
+                        </div>
+                        <div class="tpabout__content">
+                            <h4 class="tpabout__title">{{ page.title }}</h4>
+                            <p>{{ page.description }}</p>
                         </div>
                     </div>
+                </div>
 
-                    <div class="col-lg-3 col-md-3 col-sm-6">
-                        <div class="tpabout__item text-center mb-40">
-                            <div class="tpabout__icon mb-15">
-                                {% if page.image %}
-                                    {% image page.image max-100x100 as img %}
-                                    <img src="{{ img.url }}" alt="{{ page.title }}" />
-                                {% else %}
-                                    <img src="default-image.jpg" alt="Image par défaut" />
-                                {% endif %}
-                            </div>
-                            <div class="tpabout__content">
-                                <h4 class="tpabout__title">{{ page.title }}</h4>
-                                <p>{{ page.description }}</p>
-                            </div>
+                <div class="col-lg-3 col-md-3 col-sm-6">
+                    <div class="tpabout__item text-center mb-40">
+                        <div class="tpabout__icon mb-15">
+                            {% if page.image %} {% image page.image max-165x165 as img %}
+                            <img src="{{ img.url }}" alt="{{ page.title }}" />
+                            {% else %}
+                            <img
+                                src="default-image.jpg"
+                                alt="Image par défaut"
+                            />
+                            {% endif %}
+                        </div>
+                        <div class="tpabout__content">
+                            <h4 class="tpabout__title">{{ page.title }}</h4>
+                            <p>{{ page.description }}</p>
                         </div>
                     </div>
+                </div>
 
-                    <div class="col-lg-3 col-md-3 col-sm-6">
-                        <div class="tpabout__item text-center mb-40">
-                            <div class="tpabout__icon mb-15">
-                                {% if page.image %}
-                                    {% image page.image max-100x100 as img %}
-                                    <img src="{{ img.url }}" alt="{{ page.title }}" />
-                                {% else %}
-                                    <img src="default-image.jpg" alt="Image par défaut" />
-                                {% endif %}
-                            </div>
-                            <div class="tpabout__content">
-                                <h4 class="tpabout__title">{{ page.title }}</h4>
-                                <p>{{ page.description }}</p>
-                            </div>
+                <div class="col-lg-3 col-md-3 col-sm-6">
+                    <div class="tpabout__item text-center mb-40">
+                        <div class="tpabout__icon mb-15">
+                            {% if page.image %} {% image page.image max-165x165 as img %}
+                            <img src="{{ img.url }}" alt="{{ page.title }}" />
+                            {% else %}
+                            <img
+                                src="default-image.jpg"
+                                alt="Image par défaut"
+                            />
+                            {% endif %}
+                        </div>
+                        <div class="tpabout__content">
+                            <h4 class="tpabout__title">{{ page.title }}</h4>
+                            <p>{{ page.description }}</p>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6">
-                        <div class="tpabout__item text-center mb-40">
-                            <div class="tpabout__icon mb-15">
-                                {% if page.image %}
-                                    {% image page.image max-100x100 as img %}
-                                    <img src="{{ img.url }}" alt="{{ page.title }}" />
-                                {% else %}
-                                    <img src="default-image.jpg" alt="Image par défaut" />
-                                {% endif %}
-                            </div>
-                            <div class="tpabout__content">
-                                <h4 class="tpabout__title">{{ page.title }}</h4>
-                                <p>{{ page.description }}</p>
-                            </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6">
+                    <div class="tpabout__item text-center mb-40">
+                        <div class="tpabout__icon mb-15">
+                            {% if page.image %} {% image page.image max-165x165 as img %}
+                            <img src="{{ img.url }}" alt="{{ page.title }}" />
+                            {% else %}
+                            <img
+                                src="default-image.jpg"
+                                alt="Image par défaut"
+                            />
+                            {% endif %}
+                        </div>
+                        <div class="tpabout__content">
+                            <h4 class="tpabout__title">{{ page.title }}</h4>
+                            <p>{{ page.description }}</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-    
-</main>
+    </div>
+</section>
+
 {% endblock content %}
