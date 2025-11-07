@@ -7,6 +7,8 @@ from wagtail.snippets.views.snippets import SnippetViewSet, SnippetViewSetGroup
 from rootapp.base.filters import RevisionFilterSetMixin
 from rootapp.base.models import FooterText, Person
 
+from rootapp.base.models import Slide, Slider
+
 """
 N.B. To see what icons are available for use in Wagtail menus and StreamField block types,
 enable the styleguide in settings:
@@ -92,3 +94,25 @@ class BakerySnippetViewSetGroup(SnippetViewSetGroup):
 # When using a SnippetViewSetGroup class to group several SnippetViewSet classes together,
 # you only need to register the SnippetViewSetGroup class with Wagtail:
 register_snippet(BakerySnippetViewSetGroup)
+
+
+
+class SlideViewSet(SnippetViewSet):
+    model = Slide
+    icon = "image"
+    menu_label = "Slides"
+    list_display = ("title", "subtitle")
+    search_fields = ("title", "subtitle")
+
+class SliderViewSet(SnippetViewSet):
+    model = Slider
+    icon = "folder-open-inverse"
+    menu_label = "Sliders"
+    list_display = ("name", "description")
+
+class CustomSnippetGroup(SnippetViewSetGroup):
+    menu_label = "Sliders"
+    menu_icon = "image"
+    items = (SlideViewSet, SliderViewSet)
+
+register_snippet(CustomSnippetGroup)

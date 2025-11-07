@@ -94,6 +94,15 @@ class HomePage(Page):
         use_json_field=True,
     )
 
+    slider = models.ForeignKey(
+        "base.Slider",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        help_text="Choisissez le slider à afficher sur cette page"
+    )
+
     # Promo section of the HomePage
     promo_image = models.ForeignKey(
         "wagtailimages.Image",
@@ -178,6 +187,7 @@ class HomePage(Page):
             heading="Hero section",
         ),
         HelpPanel("This is a help panel"),
+        FieldPanel("slider"),
         MultiFieldPanel(
             [
                 FieldPanel("promo_image"),
