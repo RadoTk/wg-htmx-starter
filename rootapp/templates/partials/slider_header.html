@@ -1,0 +1,14 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+<section class="slider-area tpslider-delay">
+  <div class="swiper-container slider-active">
+    <div class="swiper-wrapper">
+      {% for item in slider.slide_items.all %}
+        {% image item.slide.background_image fill-1920x800 as bg %}
+        <div class="swiper-slide" style="background-image:url('{{ bg.url }}')">
+          <h2>{{ item.slide.title }}</h2>
+          <p>{{ item.slide.subtitle }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,15 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+<section class="testimonial-slider">
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
+      {% for item in slider.slide_items.all %}
+        <div class="swiper-slide">
+          <blockquote>
+            <p>{{ item.slide.description|richtext }}</p>
+            <cite>{{ item.slide.title }}</cite>
+          </blockquote>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
